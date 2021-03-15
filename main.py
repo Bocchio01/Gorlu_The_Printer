@@ -167,12 +167,12 @@ def setCalibr(event):
 
         time.sleep(2)
         ser.write((str(setting_data[0]) + ' ' + str(setting_data[1])).encode('utf-8'))
+        calib_check = True
         for j in range(1, 5):
             for i in range(1, -1, -1):
                 s = ('D' if ((i+j) % 2) == 0 else 'U')
                 dataSend(s, setting_data[2] * j * 30 * i, setting_data[3] * j * 30 * i)
                 time.sleep(0.5)
-        calib_check = True
     else:
         showinfo(title=error_msg[lang][0], message=setCalibr_[lang][1])
 
@@ -239,17 +239,16 @@ def startPrintImg():
             try:
                 y = np.where(img_to_print[max(0, Y-i): Y+i+1, max(0, X-i): X+i+1] == 0)[0][0]
                 x = np.where(img_to_print[max(0, Y-i): Y+i+1, max(0, X-i): X+i+1] == 0)[1][0]
-                X = x + max(0, X-i)#(x if (X-i) < 0 else x-i+X)
-                Y = y + max(0, Y-i)#(y if (Y-i) < 0 else y-i+Y)
+                X = x + max(0, X-i)
+                Y = y + max(0, Y-i)
                 img_to_print[Y][X] = 255
                 break
             except:
                 pass
-        if not dataSend(('U' if (i > 2) else 'D'), round(setting_data[2]*(X + delta_X)*250/dim_visualizer), round(setting_data[3]*(Y + delta_Y)*250/dim_visualizer)):
+        if dataSend(('U' if (i > 2) else 'D'), round(setting_data[2]*(X + delta_X/2)*250/dim_visualizer), round(setting_data[3]*(Y + delta_Y/2)*250/dim_visualizer)) == False:
             return
         time.sleep(0.01)
     dataSend('U', 0, 0)
-
 
 # printhand references
 def savePosn(event):

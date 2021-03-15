@@ -60,13 +60,13 @@ void loop()
       for (i = 0; i < abs(next_x - previous_x); i++)
       {
         MotorX.onestep(dir_x, DOUBLE);
-        delay(2);
+        delay(5);
       }
       
       for (i = 0; i < abs(next_y - previous_y); i++)
       {
         MotorY.onestep(dir_y, DOUBLE);
-        delay(2);
+        delay(5);
       }
 
       //update old coordinates with the current one
