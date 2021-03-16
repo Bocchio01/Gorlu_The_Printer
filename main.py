@@ -3,6 +3,7 @@ from tkinter import ttk, font
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from tkinter.messagebox import showinfo
 import tkinter as tk, numpy as np, webbrowser, serial, time, math, cv2, os
+from threading import Thread
 
 from languages import *
 
@@ -203,6 +204,7 @@ def elabImg(print_go):
     img_work = img_global
     quality = printimg_setting_quality.get()
     height, width = img_work.shape[:2]
+    
     if (width > height):
         delta_Y = dim_visualizer - round(height*dim_visualizer/width)
         delta_X = 0
@@ -210,11 +212,12 @@ def elabImg(print_go):
         delta_Y = 0
         delta_X = dim_visualizer - round(width*dim_visualizer/height)
     img_work = cv2.resize(img_work, (dim_visualizer-delta_X, dim_visualizer-delta_Y))
+    
     if (filling.get() == 0):
-        img_work = cv2.Canny(img_work, quality, quality)
-        img_work = cv2.bitwise_not(img_work)
+        img_work = cv2.bitwise_not(cv2.Canny(img_work, quality, quality))
     else:
         img_work = cv2.threshold(cv2.cvtColor(img_work, cv2.COLOR_BGR2GRAY), quality / 2, 255, cv2.THRESH_BINARY)[1]
+    
     if (print_go != 1):
         img_to_display = ImageTk.PhotoImage(image=Image.fromarray(img_work)) 
         printimg_visualizer.configure(image=img_to_display)
@@ -223,32 +226,55 @@ def elabImg(print_go):
         return(img_work, delta_X, delta_Y)
 
 
+def stopPrint():
+    # global variable for terminate print process 
+    global user_stop
+    user_stop = True
+    dataSend('U', 0, 0)
+
 # new version
 def startPrintImg():
     # ask 'elabImg()' to get initial parameters
     # while all 'img_to_print' is not white, he continusly looks for next black pixel nearest from the previous one found
     # he uses slicing technique for 2D array to find black pixel position
     # by 'dataSend()' he send pen_position and coordinates to serial port
+    global user_stop
+    user_stop = False
+    progress_windows = tk.Toplevel(bg = bg_general)
+    progress_windows.geometry('300x200')
+    progress_label = tk.Label(progress_windows, **text_config)
+    progress_label.pack(pady = 20)
+    progress_value =  tk.IntVar()
+    ttk.Progressbar(progress_windows, variable = progress_value, length = 200).pack()
+    tk.Button(progress_windows, text='Interrompi', command = stopPrint, **button_config).pack()
+    progress_windows.protocol('WM_DELETE_WINDOW', stopPrint)
+    
     img_to_print, delta_X, delta_Y = elabImg(1)
-    X = 0
-    Y = 0
+    black_pixel = np.sum(img_to_print == 0)
+    X, Y, cont = 0, 0, 0
     while not img_to_print.all():
-        i = 0
+        i, cont = 0, cont + 1
         while True:
             i += 1
             try:
                 y = np.where(img_to_print[max(0, Y-i): Y+i+1, max(0, X-i): X+i+1] == 0)[0][0]
                 x = np.where(img_to_print[max(0, Y-i): Y+i+1, max(0, X-i): X+i+1] == 0)[1][0]
-                X = x + max(0, X-i)
-                Y = y + max(0, Y-i)
+                X, Y = x + max(0, X-i), y + max(0, Y-i)
                 img_to_print[Y][X] = 255
                 break
             except:
                 pass
-        if dataSend(('U' if (i > 2) else 'D'), round(setting_data[2]*(X + delta_X/2)*250/dim_visualizer), round(setting_data[3]*(Y + delta_Y/2)*250/dim_visualizer)) == False:
-            return
-        time.sleep(0.01)
-    dataSend('U', 0, 0)
+        if user_stop == False:
+            if dataSend(('U' if (i > 2) else 'D'), round(setting_data[2]*(X + delta_X/2)*250/dim_visualizer), round(setting_data[3]*(Y + delta_Y/2)*250/dim_visualizer)) == False:
+                user_stop = True
+            time.sleep(0.01)
+            
+            progress_label['text'] = ('Stampati %d su %d pixel totali\n%s ' % (cont, black_pixel, str(progress_value.get())+' %' ))
+            progress_value.set(round(cont*100/black_pixel))
+            progress_windows.update()
+    progress_windows.after(2000, progress_windows.destroy())
+    #Thread(target = startPrintImg).join()
+    
 
 # printhand references
 def savePosn(event):
@@ -527,7 +553,7 @@ printimg_setting_separator_1 = ttk.Separator(printimg_setting_frame, orient=tk.H
 printimg_setting_selection = tk.Button(printimg_setting_frame, command=lambda: openImg(), **button_config)
 printimg_setting_quality = tk.Scale(printimg_setting_frame, orient=tk.HORIZONTAL, length=300, from_=1.0, to=500.0, command=lambda e: elabImg(0), **button_config)
 printimg_setting_filling = tk.Checkbutton(printimg_setting_frame,  variable=filling, onvalue=1, offvalue=0, command=lambda: elabImg(0), **text_config)
-printimg_setting_go = tk.Button(printimg_setting_frame, command=lambda: startPrintImg(), **button_config)
+printimg_setting_go = tk.Button(printimg_setting_frame, command=lambda: Thread(target = startPrintImg).start(), **button_config)
 
 printimg_setting_go['font'] = ('calibri', 20, font.BOLD)
 
