@@ -18,8 +18,9 @@ def selectLang(lang_selected):
     global lang
     lang = lang_selected
 
-    tk.Label(lang_frame, text=loading_[lang], **text_config).grid()
-    windows.update()
+    tk.Label(lang_frame, text=loading_[lang], **text_config).grid(row = 3)
+    bar = ttk.Progressbar(lang_frame, length = 450, value = 0)
+    bar.grid(row = 3, column = 1, columnspan = 2)
 
     text_widget = {info_name: 'info_name', info_text_1: 'info_text_1', info_text_2: 'info_text_2',
                    config_text_0: 'config_text_0', config_text_1: 'config_text_1', config_text_2: 'config_text_2', config_save_code: 'config_save_code',
@@ -40,12 +41,17 @@ def selectLang(lang_selected):
 
     # search for installed font and display them as option for "printtext page"
     permitted_font = []
+    tot_font = len(font.families())
+    cont = 0
     for i in font.families():
         try:
             ImageFont.truetype(i, size=12)
             permitted_font.append(i)
         except:
             pass
+        cont += 1
+        bar['value'] = (round(cont*100/tot_font))
+        windows.update()
     printtext_setting_character.config(value=permitted_font)
     printtext_setting_character.set(permitted_font[0])
 
@@ -201,6 +207,7 @@ def elabImg(print_go):
     # 'filling.get()' is on  -> he uses quality as parameters for 'cv2.threshold()', working on a GRAY version of img_work
     # 'print_go' is False -> he displays 'img_work' in 'printimg page'
     # 'print_go' is True -> return ('img_work', 'delta_X', 'delta_Y')
+    printimg_setting_go['state']=tk.NORMAL
     img_work = img_global
     quality = printimg_setting_quality.get()
     height, width = img_work.shape[:2]
@@ -240,14 +247,14 @@ def startPrintImg():
     # by 'dataSend()' he send pen_position and coordinates to serial port
     global user_stop
     user_stop = False
-    progress_windows = tk.Toplevel(bg = bg_general)
-    progress_windows.geometry('300x200')
-    progress_label = tk.Label(progress_windows, **text_config)
-    progress_label.pack(pady = 20)
-    progress_value =  tk.IntVar()
-    ttk.Progressbar(progress_windows, variable = progress_value, length = 200).pack()
-    tk.Button(progress_windows, text='Interrompi', command = stopPrint, **button_config).pack()
-    progress_windows.protocol('WM_DELETE_WINDOW', stopPrint)
+    sub_windows = tk.Toplevel(bg = bg_general)
+    sub_windows.geometry('300x200')
+    sub_label = tk.Label(sub_windows, **text_config)
+    sub_progressbar = ttk.Progressbar(sub_windows, length = 200, value = 0)
+    sub_label.pack(pady = 20)
+    sub_progressbar.pack()
+    tk.Button(sub_windows, text=sub_windows_[lang][0], command = stopPrint, **button_config).pack(pady = 20)
+    sub_windows.protocol('WM_DELETE_WINDOW', stopPrint)
     
     img_to_print, delta_X, delta_Y = elabImg(1)
     black_pixel = np.sum(img_to_print == 0)
@@ -269,11 +276,13 @@ def startPrintImg():
                 user_stop = True
             time.sleep(0.01)
             
-            progress_label['text'] = ('Stampati %d su %d pixel totali\n%s ' % (cont, black_pixel, str(progress_value.get())+' %' ))
-            progress_value.set(round(cont*100/black_pixel))
-            progress_windows.update()
-    progress_windows.after(2000, progress_windows.destroy())
-    #Thread(target = startPrintImg).join()
+            sub_label['text'] = (sub_windows_[lang][1] % (cont, black_pixel, str(sub_progressbar['value'])+' %' ))
+            sub_progressbar['value'] = (round(cont*100/black_pixel))
+            sub_windows.update()
+    try:
+        sub_windows.after(2000, sub_windows.destroy())
+    except:
+        pass
     
 
 # printhand references
@@ -553,7 +562,7 @@ printimg_setting_separator_1 = ttk.Separator(printimg_setting_frame, orient=tk.H
 printimg_setting_selection = tk.Button(printimg_setting_frame, command=lambda: openImg(), **button_config)
 printimg_setting_quality = tk.Scale(printimg_setting_frame, orient=tk.HORIZONTAL, length=300, from_=1.0, to=500.0, command=lambda e: elabImg(0), **button_config)
 printimg_setting_filling = tk.Checkbutton(printimg_setting_frame,  variable=filling, onvalue=1, offvalue=0, command=lambda: elabImg(0), **text_config)
-printimg_setting_go = tk.Button(printimg_setting_frame, command=lambda: Thread(target = startPrintImg).start(), **button_config)
+printimg_setting_go = tk.Button(printimg_setting_frame, command=lambda: Thread(target = startPrintImg).start(), state = tk.DISABLED, **button_config)
 
 printimg_setting_go['font'] = ('calibri', 20, font.BOLD)
 

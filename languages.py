@@ -165,3 +165,7 @@ loading_ = ["Caricamento...", "Loading...", "Chargement..."]
 error_msg = [["Errore..", "Passa a 'Configura' per ricollegare Arduino", "Passa a 'Calibra' per testare il settaggio iniziale"],
              ["", "", ""],
              ["", "", ""]]
+
+sub_windows_ = [["Interrompi", "Stampati %d su %d pixel totali\n%s"],
+                ["", ""],
+                ["", ""]]
