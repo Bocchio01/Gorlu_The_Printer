@@ -280,6 +280,7 @@ def startPrintImg():
             sub_progressbar['value'] = (round(cont*100/black_pixel))
             sub_windows.update()
     try:
+        dataSend('U', 0, 0)
         sub_windows.after(2000, sub_windows.destroy())
     except:
         pass
