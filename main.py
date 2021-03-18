@@ -19,8 +19,8 @@ def selectLang(lang_selected):
     lang = lang_selected
 
     tk.Label(lang_frame, text=loading_[lang], **text_config).grid(row = 3)
-    bar = ttk.Progressbar(lang_frame, length = 450, value = 0)
-    bar.grid(row = 3, column = 1, columnspan = 2)
+    lang_bar = ttk.Progressbar(lang_frame, length = 450, value = 0)
+    lang_bar.grid(row = 3, column = 1, columnspan = 2)
 
     text_widget = {info_name: 'info_name', info_text_1: 'info_text_1', info_text_2: 'info_text_2',
                    config_text_0: 'config_text_0', config_text_1: 'config_text_1', config_text_2: 'config_text_2', config_save_code: 'config_save_code',
@@ -50,7 +50,7 @@ def selectLang(lang_selected):
         except:
             pass
         cont += 1
-        bar['value'] = (round(cont*100/tot_font))
+        lang_bar['value'] = (round(cont*100/tot_font))
         windows.update()
     printtext_setting_character.config(value=permitted_font)
     printtext_setting_character.set(permitted_font[0])
@@ -247,7 +247,7 @@ def startPrintImg():
     # by 'dataSend()' he send pen_position and coordinates to serial port
     global user_stop
     user_stop = False
-    sub_windows = tk.Toplevel(bg = bg_general)
+    sub_windows = tk.Toplevel(bg = bg_general, borderwidth=2, relief='solid')
     sub_windows.geometry('300x200')
     sub_label = tk.Label(sub_windows, **text_config)
     sub_progressbar = ttk.Progressbar(sub_windows, length = 200, value = 0)
@@ -274,6 +274,7 @@ def startPrintImg():
         if user_stop == False:
             if dataSend(('U' if (i > 2) else 'D'), round(setting_data[2]*(X + delta_X/2)*250/dim_visualizer), round(setting_data[3]*(Y + delta_Y/2)*250/dim_visualizer)) == False:
                 user_stop = True
+                break
             time.sleep(0.01)
             
             sub_label['text'] = (sub_windows_[lang][1] % (cont, black_pixel, str(sub_progressbar['value'])+' %' ))
