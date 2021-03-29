@@ -18,22 +18,26 @@ Written using only Python3, the app has lot of functions already integrated whic
 
 Let's have a look to the main features..
 
+#
 ### Print images
 You want to have a touchable version of the image you got on your pc-screen? Just select that image, software will do the heavy-job, and Arduino will print it!
 
 ![Diapositiva1_min](https://user-images.githubusercontent.com/67842431/112904631-83538280-90e9-11eb-9cf6-623580a3d507.jpg)
 
+#
 ### Draw and print
 You want to use your Arduino as an extenctions on your arm? No problem: take your muose or graphical-tablet, draw everything you want to on the board, and Arduino will reproduce 
 perfectly your draw.
 
 ![Diapositiva2_min](https://user-images.githubusercontent.com/67842431/112904708-9d8d6080-90e9-11eb-840c-dccc4cb9e8f3.jpg)
 
+#
 ### Write and print
 You want to try a new text editor? You got it! Write what you want, align where you want, choose the font you want, and print it!
 
 ![Diapositiva3_min](https://user-images.githubusercontent.com/67842431/112904718-a2521480-90e9-11eb-9d2a-34c375fb1a66.jpg)
 
+#
 Lots of other examples can be found at [my website](http://bocchio.altervista.org/Arduino_printer/index.html), but here's another one:
 <img src="https://user-images.githubusercontent.com/67842431/112901097-9adc3c80-90e4-11eb-9527-207a1e6a146d.gif" width="1280"/>
 <br>
