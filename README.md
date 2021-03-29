@@ -20,25 +20,17 @@ Let's have a look to the main features..
 
 ### Print images
 You want to have a touchable version of the image you got on your pc-screen? Just select that image, software will do the heavy-job, and Arduino will print it!
-
 ![Diapositiva1](https://user-images.githubusercontent.com/67842431/112901009-7ed89b00-90e4-11eb-9bce-507d8b955f59.JPG)
-
 ### Draw and print
 You want to use your Arduino as an extenctions on your arm? No problem: take your muose or graphical-tablet, draw everything you want to on the board, and Arduino will reproduce 
 perfectly your draw.
-
 ![Diapositiva2](https://user-images.githubusercontent.com/67842431/112901031-85ffa900-90e4-11eb-9e9a-b115e5ae4712.JPG)
-
 ### Write and print
 You want to try a new text editor? You got it! Write what you want, align where you want, choose the font you want, and print it!
-
 ![Diapositiva3](https://user-images.githubusercontent.com/67842431/112901058-8ef07a80-90e4-11eb-9bdf-130b3657517f.JPG)
 
-
 Lots of other examples can be found at [my website](http://bocchio.altervista.org/Arduino_printer/index.html), but here's another one:
-
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/67842431/112901097-9adc3c80-90e4-11eb-9527-207a1e6a146d.gif)
-
 
 ## Just to know..
 For building this software I utilized lots of Python libraries. The mains are:
