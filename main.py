@@ -113,8 +113,8 @@ def openPage(page):
 
 def launchLink(link):
     # launch webbrower with the selected link
-    link_dictionary = ['https://github.com/Bocchio01/Arduino_printer.git',
-                       'https://bocchio.altervista.org/Arduino_printer/index.html',
+    link_dictionary = ['https://github.com/Bocchio01/Arduino_CNC_plotter',
+                       'https://bocchio.altervista.org/2021/Gorlu la stampante/',
                        'https://learn.adafruit.com/adafruit-motor-shield/library-install']
     webbrowser.open_new(link_dictionary[link])
 

@@ -165,7 +165,7 @@ menu_ = [[["Informazioni", "Info", "Codice sorgente app", "Progetto stampante"],
          [["Information", "Info", "App source code", "Printer project"], ["Configure", "Initial setup", "Arduino library"], "Calibrate", "Print image", "Draw and print", "Write and print"],
          [["Informations", "Info", "Code source de l'application", "Projet d'imprimante"], ["Configurez", "Réglage initial", "Librairie Arduino"], "Calibrez", "Imprimez l'image", "Dessinez et imprimez", "Écrivez et imprimez"]]
 
-windows_ = ["GORLU la stampante!", "GORLU the printet!", "GORLU l'imprimante"]
+windows_ = ["GORLU la stampante!", "GORLU the printer!", "GORLU l'imprimante"]
 
 loading_ = ["Caricamento...", "Loading...", "Loading..."]
 

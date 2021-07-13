@@ -38,15 +38,21 @@ You want to try a new text editor? You got it! Write what you want, align where 
 ![Diapositiva3_min](https://user-images.githubusercontent.com/67842431/112904718-a2521480-90e9-11eb-9d2a-34c375fb1a66.jpg)
 
 #
-Lots of other examples can be found at [my website](http://bocchio.altervista.org/Arduino_printer/index.html), but here's another one:
+Lots of other examples can be found at [my website](http://bocchio.altervista.org/2021/Gorlu%20la%20stampante), but here's another one:
+
 <img src="https://user-images.githubusercontent.com/67842431/112901097-9adc3c80-90e4-11eb-9527-207a1e6a146d.gif" width="1280"/>
-<br>
-<br>
+
+#
 ## Just to know..
-For building this software I utilized lots of Python libraries. The mains are:
+For building this software I've used lots of Python libraries. The mains are:
 - OpenCv + NumPy + PIL: for image analisys and data/bit manipulation
 - Tkinter: for the Graphical User Interface itself
 - Serial: for data sending, passing throught COM port
+
+In order to run 'main.py', you have to install the libraries using pip command: 
+```
+pip install opencv-python pillow numpy pyserial tk
+```
 
 Let me underline that this was my first time Python approach. Probably in the lines of code lot of errors can be found, and that the reason of next paragraph..
 
