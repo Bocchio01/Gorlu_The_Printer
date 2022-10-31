@@ -1,9 +1,11 @@
+import logging
 import tkinter as tk
 from PIL import ImageTk, Image
 
 
 class LangView(tk.Frame):
     def __init__(self, parent, controller, gui_opt):
+        logging.debug(f"LangView")
         self.gui_opt = gui_opt
         self.controller = controller
         # ------------------------------
@@ -35,6 +37,7 @@ class LangView(tk.Frame):
         self.fr.pack(side=tk.LEFT, expand=True)
 
     def createButtonWidget(self, data: dict[str, str]):
+        logging.debug(f"LangView")
         flag_image = ImageTk.PhotoImage(
             Image.open(fr'assets/img/{data["src"]}.png')
         )
@@ -52,7 +55,7 @@ class LangView(tk.Frame):
         button = tk.Button(
             frame,
             text=data['text'],
-            command=lambda: self.controller.set_locale(data['src']),
+            command=lambda: self.controller.change_locale(data['src']),
             **self.gui_opt['button_config']
         )
 

@@ -5,9 +5,9 @@ import webbrowser
 
 class MenuView(tk.Menu):
     def __init__(self, parent, view, controller):
+        logging.debug(f"MenuView")
         self.view = view
         self.controller = controller
-        self.list_frames = list(view.frames.keys())
 
         tk.Menu.__init__(self, parent)
 
@@ -18,21 +18,23 @@ class MenuView(tk.Menu):
         self.add_cascade(menu=self.info)
         self.add_cascade(menu=self.config)
         self.add_command(
-            command=lambda: self.view.show_frame(self.list_frames[3])
+            command=lambda: self.view.show_frame('CalibrationFrame')
         )
         self.add_command(
-            command=lambda: self.view.show_frame(self.list_frames[4])
+            command=lambda: self.view.show_frame('PrintImgFrame')
         )
         self.add_command(
-            command=lambda: self.view.show_frame(self.list_frames[5])
+            command=lambda: self.view.show_frame('PrintHandFrame')
         )
         self.add_command(
-            command=lambda: self.view.show_frame(self.list_frames[6])
+            command=lambda: self.view.show_frame('PrintTextFrame')
         )
-        self.add_cascade(menu=self.help)
+        self.add_command(
+            command=lambda: self.view.show_frame('LangView')
+        )
 
         self.info.add_command(
-            command=lambda: self.view.show_frame(self.list_frames[1])
+            command=lambda: self.view.show_frame('InfoFrame')
         )
         self.info.add_separator()
         self.info.add_command(command=lambda: self.controller.open_link(
@@ -43,42 +45,34 @@ class MenuView(tk.Menu):
         )
 
         self.config.add_command(
-            command=lambda: self.view.show_frame(self.list_frames[2])
+            command=lambda: self.view.show_frame('ConfigFrame')
         )
         self.config.add_separator()
         self.config.add_command(command=lambda: self.controller.open_link(
             'https://learn.adafruit.com/adafruit-motor-shield/library-install')
         )
 
-        self.help.add_command(
-            command=lambda: self.view.show_frame(self.list_frames[0]),
-            label='Preferences'
-        )
-        self.help.add_command(
-            command=lambda: self.controller.set_locale('it'),
-            label='IT'
-        )
-        self.help.add_command(
-            command=lambda: self.controller.set_locale('en'),
-            label='EN'
-        )
-        self.help.add_command(
-            command=lambda: self.controller.set_locale('fr'),
-            label='FR'
-        )
-
-        # self.help.add_command(label='IT',
-        #                       image=PhotoImage(
-        #                           file='assets/img/it.png'),
-        #                       compound='left',
-        #                       command=lambda: self.controller.set_locale('it'),
-        #                       )
+    def set_locale(self, locale):
+        logging.debug(f"MenuView")
+        self.entryconfigure(1, label=locale['menu_'][0][0])
+        self.entryconfigure(2, label=locale['menu_'][1][0])
+        self.entryconfigure(3, label=locale['menu_'][2])
+        self.entryconfigure(4, label=locale['menu_'][3])
+        self.entryconfigure(5, label=locale['menu_'][4])
+        self.entryconfigure(6, label=locale['menu_'][5])
+        self.entryconfigure(7, label=locale['menu_'][6])
+        self.info.entryconfigure(0, label=locale['menu_'][0][1])
+        self.info.entryconfigure(2, label=locale['menu_'][0][2])
+        self.info.entryconfigure(3, label=locale['menu_'][0][3])
+        self.config.entryconfigure(0, label=locale['menu_'][1][1])
+        self.config.entryconfigure(2, label=locale['menu_'][1][2])
 
 
 class MenuController:
     def __init__(self) -> None:
+        logging.debug(f"MenuController")
         pass
 
     def open_link(self, link):
-        logging.debug(f"")
+        logging.debug(f"MenuController:{link}")
         webbrowser.open_new(link)

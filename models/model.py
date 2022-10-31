@@ -1,35 +1,47 @@
 import json
 import logging
 from tkinter import font
-from PIL import ImageFont
-
 from commons.config import ConfigModel
 from commons.calibration import CalibrationModel
 from commons.printimg import PrintImgModel
+from commons.printhand import PrintHandModel
+from commons.printtext import PrintTextModel
 
 
 class Model(
     ConfigModel,
     CalibrationModel,
-    PrintImgModel
+    PrintImgModel,
+    PrintHandModel,
+    PrintTextModel
 ):
 
     def __init__(self):
+        logging.debug(f"Model")
         self.locale = {}
         self.gui_opt = {}
-        self.fonts = []
 
-        for model in (ConfigModel, CalibrationModel, PrintImgModel):
+        for model in (ConfigModel, CalibrationModel, PrintImgModel, PrintHandModel, PrintTextModel):
             model.__init__(self)
 
     def setup(self, controller):
+        logging.debug(f"Model")
         self.controller = controller
-        # self.model.get_fonts()
+        self.get_calibration_params()
+        self.get_gui_opt()
+        if self.gui_opt['lang'] in ['it', 'en', 'fr']:
+            self.get_locale(self.gui_opt['lang'])
+        self.get_fonts()
 
-    def get_locale(self, target: str):
-        logging.debug(f"Target:{target}")
-        if not self.locale or self.gui_opt['lang'] is not target:
-            logging.debug(f"Loading lang")
+    def get_locale(self, target: str = None):
+        logging.debug(f"Model:target:{target}")
+        if (
+            target and
+            (
+                not self.locale or
+                self.gui_opt['lang'] is not target
+            )
+        ):
             self.locale = self.read_json(fr'assets/locale/{target}.json')
 
             self.gui_opt['lang'] = target
@@ -40,6 +52,7 @@ class Model(
         return self.locale
 
     def get_gui_opt(self):
+        logging.debug(f"Model")
         if not self.gui_opt:
             self.gui_opt = self.read_json(fr'assets/config/GUI.json')
 
@@ -66,19 +79,9 @@ class Model(
 
         return self.gui_opt
 
-    def get_fonts(self):
-        if not self.fonts:
-            for i in font.families():
-                try:
-                    ImageFont.truetype(i, size=12)
-                    self.fonts.append(i)
-                except:
-                    pass
-
-        return self.fonts
-
     @staticmethod
     def save_json(path: str, data: dict | list, mode='w'):
+        logging.debug(f"Model:path:{path}")
         with open(path, mode) as outfile:
             json.dump(
                 data,
@@ -89,6 +92,7 @@ class Model(
 
     @staticmethod
     def read_json(path):
+        logging.debug(f"Model:path:{path}")
         file = open(path)
         content = json.load(file)
         file.close()

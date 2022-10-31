@@ -71,7 +71,7 @@ class ConfigFrame(tk.Frame):
 
 class ConfigController:
     def __init__(self) -> None:
-        logging.debug(f"")
+        logging.debug(f"ConfigController")
         pass
 
     # def __main__(self, model, view):
@@ -80,25 +80,32 @@ class ConfigController:
     #     self.view = view
 
     def setup(self):
+        logging.debug(f"ConfigController")
         self.set_COM_ports_gui(self.get_COM_ports())
         self.set_arduino_code_gui(self.get_arduino_code())
 
     def get_COM_ports(self):
+        logging.debug(f"ConfigController")
         return self.model.get_COM_ports()
 
     def set_COM_ports_gui(self, ports):
+        logging.debug(f"ConfigController")
         self.view.set_COM_ports_gui(ports)
 
     def set_arduino_code_gui(self, arduino_code):
+        logging.debug(f"ConfigController")
         self.view.set_arduino_code_gui(arduino_code)
 
     def save_arduino_code(self):
+        logging.debug(f"ConfigController")
         self.model.save_arduino_code()
 
     def get_arduino_code(self):
+        logging.debug(f"ConfigController")
         return self.model.get_arduino_code()
 
     def set_COM_port(self, port):
+        logging.debug(f"ConfigController")
         try:
             self.serial_port.close()
         except:
@@ -118,10 +125,12 @@ class ConfigController:
 
 class ConfigModel:
     def __init__(self):
+        logging.debug(f"ConfigModel")
         self.COM_ports = []
         self.arduino_code = ''
 
     def get_COM_ports(self):
+        logging.debug(f"ConfigModel")
         if not self.COM_ports:
             for port in list(serial.tools.list_ports.comports()):
                 self.COM_ports.append(port.device)
@@ -133,6 +142,7 @@ class ConfigModel:
         return self.COM_ports
 
     def get_arduino_code(self):
+        logging.debug(f"ConfigModel")
         if not self.arduino_code:
             file = open(r'Arduino_code/Arduino_code.ino', 'r')
             self.arduino_code = file.read()
@@ -141,7 +151,7 @@ class ConfigModel:
         return self.arduino_code
 
     def save_arduino_code(self):
-        # asks for filepath and saves Arduino's code
+        logging.debug(f"ConfigModel")
         filepath = asksaveasfilename(
             title=self.locale['save_arduino_code'][0],
             initialfile=self.locale['save_arduino_code'][1],

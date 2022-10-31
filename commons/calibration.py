@@ -125,7 +125,7 @@ class CalibrationFrame(tk.Frame):
         self.visualizer.pack(expand=True)
 
     def set_calibration_params_gui(self, params):
-        logging.debug(f"CalibrationView: {params}")
+        logging.debug(f"CalibrationView:{params}")
         self.servo_max.set(params['UP'])
         self.servo_min.set(params['DOWN'])
         self.setting_direction_X.set(params['X'])
@@ -134,27 +134,29 @@ class CalibrationFrame(tk.Frame):
 
 class CalibrationController():
     def __init__(self) -> None:
+        logging.debug(f"CalibrationController")
         pass
 
     def setup(self):
+        logging.debug(f"CalibrationController")
         self.set_calibration_params_gui(self.get_calibration_params())
 
     def get_calibration_params(self):
-        logging.debug("CalibrationController")
+        logging.debug(f"CalibrationController")
         return self.model.get_calibration_params()
 
-    def set_calibration_params_gui(self, data):
-        locale = self.get_locale()
-        params = {**data}
+    def set_calibration_params_gui(self, params):
+        logging.debug(f"CalibrationController")
+        locale = self.model.get_locale()
+        params = {**params}
         params['X'] = (locale['direction_'][0] if params['X']
                        == 1 else locale['direction_'][1])
         params['Y'] = (locale['direction_'][0] if params['Y']
                        == 1 else locale['direction_'][1])
-        logging.debug("CalibrationController")
         self.view.set_calibration_params_gui(params)
 
     def set_calibration_params(self, data: dict):
-        logging.debug("CalibrationController")
+        logging.debug(f"CalibrationController")
         try:
             params = self.model.set_calibration_params(data)
             self.set_calibration_params_gui(params)
@@ -166,7 +168,7 @@ class CalibrationController():
             )
 
     def test_plotter(self):
-        logging.debug("CalibrationController")
+        logging.debug(f"CalibrationController")
         try:
             self.serial_port.open()
         except:
@@ -194,6 +196,7 @@ class CalibrationController():
 
 class CalibrationModel:
     def __init__(self) -> None:
+        logging.debug(f"CalibrationModel")
         self.calibration_params = {}
 
         self.DEFAULT_CALIBRATION_PARAMS = {
@@ -204,7 +207,7 @@ class CalibrationModel:
         }
 
     def get_calibration_params(self):
-        logging.debug(f"CalibrationModel pre: {self.calibration_params}")
+        logging.debug(f"CalibrationModel")
         if not self.calibration_params:
             try:
                 self.calibration_params = self.read_json(
@@ -213,10 +216,10 @@ class CalibrationModel:
             except:
                 self.calibration_params = self.DEFAULT_CALIBRATION_PARAMS
 
-        logging.debug(f"CalibrationModel post: {self.calibration_params}")
         return self.calibration_params
 
     def set_calibration_params(self, data):
+        logging.debug(f"CalibrationModel:{data}")
         if (
             (data['UP'] < 180) and (data['DOWN'] < 180) and
             (data['UP'] > 0) and (data['DOWN'] > 0)
@@ -232,5 +235,4 @@ class CalibrationModel:
             )
         else:
             raise ValueError("Errore nei dati inseriti")
-        logging.debug(f"CalibrationModel: {self.calibration_params}")
         return self.calibration_params

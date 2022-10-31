@@ -1,3 +1,4 @@
+import logging
 import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
@@ -5,6 +6,7 @@ from PIL import ImageTk, Image
 
 class InfoFrame(tk.Frame):
     def __init__(self, parent, controller, gui_opt):
+        logging.debug(f"InfoFrame")
         self.gui_opt = gui_opt
         self.controller = controller
         tk.Frame.__init__(self, parent, bg=gui_opt['bg_general'])

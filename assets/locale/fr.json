@@ -1,84 +1,85 @@
 {
-  "InfoFrame": {
-    "name": "Sooftware cr\u00e9\u00e9 par Tommaso Bocchietti",
-    "text_1": "Vous aurez besoin d'une imprimante contr\u00f4l\u00e9e par Arduino comme celle de l'image",
-    "text_2": "N.B. en naviguant entre les diff\u00e9rents menus, vous pouvez trouver des liens utiles pour le projet"
-  },
-  "ConfigFrame": {
-    "text_0": "\nConfigurez votre imprimante\n\n\n1. Entrez le port auquel la carte Arduino est connect\u00e9e:",
-    "text_1": "2. T\u00e9l\u00e9chargez la librairie 'AFmotor.h' (lien dans le menu)",
-    "text_2": "3. Chargez le code suivant sur votre carte Arduino",
-    "save_arduino_code": "Sauvez le code entier"
-  },
-  "CalibrationFrame": {
-    "setting_text_0": "Calibrez la hauteur du stylo (0/180)",
-    "setting_text_1": "Stylo en haut:",
-    "setting_text_2": "Stylo en bas:",
-    "setting_text_3": "Contr\u00f4lez la direction du mouvement",
-    "setting_text_4": "Direction axe X:",
-    "setting_text_5": "Direction axe Y:",
-    "setting_text_6": "Amenez manuellement le stylo\nsur la position du point rouge",
-    "setting_load": "Effectuez un test"
-  },
-  "PrintImgFrame": {
-    "setting_text_0": "Choisissez l'image que vous voulez imprimer",
-    "setting_selection": "Ouvrir le file",
-    "setting_text_1": "Utilisez le slider pour ajuster l'approximation\ndu contour dans l'image",
-    "setting_filling": "Mode de remplissage",
-    "setting_go": "Pressez!"
-  },
-  "PrintHandFrame": {
-    "setting_text_0": "Utilisez le tableau \u00e0 c\u00f4t\u00e9 pour dessiner",
-    "setting_text_1": "Comment l'utiliser:",
-    "setting_text_2": "- Cliquez et faites glisser le curseur\n- Restez \u00e0 l'int\u00e9rieur de la bordure noire",
-    "setting_text_3": "Le dessin et l'impression seront simultan\u00e9es",
-    "setting_button_0": "Nettoyez le tableau",
-    "setting_button_1": "Sauvez le tableau (*.png)"
-  },
-  "PrintTextFrame": {
-    "setting_text_0": "R\u00e9digez le texte et d\u00e9finissez les param\u00e8tres",
-    "setting_text_1": "Menu font",
-    "setting_text_2": "Dimension:",
-    "setting_text_3": "Font:",
-    "setting_text_4": "Paragraphe:",
-    "setting_text_5": "Rotation de la page:",
-    "setting_button": "Allez \u00e0 la presse!"
-  },
+	"InfoFrame": {
+		"name": "Sooftware cr\u00e9\u00e9 par Tommaso Bocchietti",
+		"text_1": "Vous aurez besoin d'une imprimante contr\u00f4l\u00e9e par Arduino comme celle de l'image",
+		"text_2": "N.B. en naviguant entre les diff\u00e9rents menus, vous pouvez trouver des liens utiles pour le projet"
+	},
+	"ConfigFrame": {
+		"text_0": "\nConfigurez votre imprimante\n\n\n1. Entrez le port auquel la carte Arduino est connect\u00e9e:",
+		"text_1": "2. T\u00e9l\u00e9chargez la librairie 'AFmotor.h' (lien dans le menu)",
+		"text_2": "3. Chargez le code suivant sur votre carte Arduino",
+		"save_arduino_code": "Sauvez le code entier"
+	},
+	"CalibrationFrame": {
+		"setting_text_0": "Calibrez la hauteur du stylo (0/180)",
+		"setting_text_1": "Stylo en haut:",
+		"setting_text_2": "Stylo en bas:",
+		"setting_text_3": "Contr\u00f4lez la direction du mouvement",
+		"setting_text_4": "Direction axe X:",
+		"setting_text_5": "Direction axe Y:",
+		"setting_text_6": "Amenez manuellement le stylo\nsur la position du point rouge",
+		"setting_load": "Effectuez un test"
+	},
+	"PrintImgFrame": {
+		"setting_text_0": "Choisissez l'image que vous voulez imprimer",
+		"setting_selection": "Ouvrir le file",
+		"setting_text_1": "Utilisez le slider pour ajuster l'approximation\ndu contour dans l'image",
+		"setting_filling": "Mode de remplissage",
+		"setting_go": "Pressez!"
+	},
+	"PrintHandFrame": {
+		"setting_text_0": "Utilisez le tableau \u00e0 c\u00f4t\u00e9 pour dessiner",
+		"setting_text_1": "Comment l'utiliser:",
+		"setting_text_2": "- Cliquez et faites glisser le curseur\n- Restez \u00e0 l'int\u00e9rieur de la bordure noire",
+		"setting_text_3": "Le dessin et l'impression seront simultan\u00e9es",
+		"setting_button_0": "Nettoyez le tableau",
+		"setting_button_1": "Sauvez le tableau (*.png)"
+	},
+	"PrintTextFrame": {
+		"setting_text_0": "R\u00e9digez le texte et d\u00e9finissez les param\u00e8tres",
+		"setting_text_1": "Menu font",
+		"setting_text_2": "Dimension:",
+		"setting_text_3": "Font:",
+		"setting_text_4": "Paragraphe:",
+		"setting_text_5": "Rotation de la page:",
+		"setting_button": "Allez \u00e0 la presse!"
+	},
 
-  "align_o": ["Gauche", "Centr\u00e9", "Droit"],
-  "direction_": ["Positive", "N\u00e9gative"],
-  "set_COM_port": [
-    "Configuration de Arduino..",
-    "Arduino configur\u00e9 correctement",
-    "Arduino non trouv\u00e9"
-  ],
-  "save_arduino_code": ["Sauvez le code", "Code d'imprimante Arduino"],
-  "set_calibration_params_": [
-    "Param\u00e8tres initiaux pour l'imprimante Arduino. Ne pas modifier le fichier.",
-    "Les param\u00e8tres du stylo doivent \u00eatre compris entre 0 et 180"
-  ],
-  "openImg_": "Ouvrez une image",
-  "saveCanvas_": ["Sauvez votre tableau", "Tableau Arduino"],
-  "menu_": [
-    [
-      "Informations",
-      "Info",
-      "Code source de l'application",
-      "Projet d'imprimante"
-    ],
-    ["Configurez", "R\u00e9glage initial", "Librairie Arduino"],
-    "Calibrez",
-    "Imprimez l'image",
-    "Dessinez et imprimez",
-    "\u00c9crivez et imprimez",
-    ["Help", "IT", "EN", "FR"]
-  ],
-  "windows_": "GORLU l'imprimante",
-  "loading_": "Loading...",
-  "error_msg": [
-    "Erreur..",
-    "Passez \u00e0 'Configurez' pour reconnecter l'Arduino",
-    "Passez \u00e0 'Calibrez' pour tester le r\u00e9glage initial"
-  ],
-  "sub_windows_": ["Arr\u00eater", "Imprim\u00e9 %d sur %d pixels totaux\n%s"]
+	"align_o": ["Gauche", "Centr\u00e9", "Droit"],
+	"align_v": ["Haut", "Centré", "Bas"],
+	"direction_": ["Positive", "N\u00e9gative"],
+	"set_COM_port": [
+		"Configuration de Arduino..",
+		"Arduino configur\u00e9 correctement",
+		"Arduino non trouv\u00e9"
+	],
+	"save_arduino_code": ["Sauvez le code", "Code d'imprimante Arduino"],
+	"set_calibration_params_": [
+		"Param\u00e8tres initiaux pour l'imprimante Arduino. Ne pas modifier le fichier.",
+		"Les param\u00e8tres du stylo doivent \u00eatre compris entre 0 et 180"
+	],
+	"openImg_": "Ouvrez une image",
+	"saveCanvas_": ["Sauvez votre tableau", "Tableau Arduino"],
+	"menu_": [
+		[
+			"Informations",
+			"Info",
+			"Code source de l'application",
+			"Projet d'imprimante"
+		],
+		["Configurez", "R\u00e9glage initial", "Librairie Arduino"],
+		"Calibrez",
+		"Imprimez l'image",
+		"Dessinez et imprimez",
+		"\u00c9crivez et imprimez",
+		"Lingua"
+	],
+	"windows_": "GORLU l'imprimante",
+	"loading_": "Loading...",
+	"error_msg": [
+		"Erreur..",
+		"Passez \u00e0 'Configurez' pour reconnecter l'Arduino",
+		"Passez \u00e0 'Calibrez' pour tester le r\u00e9glage initial"
+	],
+	"sub_windows_": ["Arr\u00eater", "Imprim\u00e9 %d sur %d pixels totaux\n%s"]
 }

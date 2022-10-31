@@ -12,6 +12,7 @@ import cv2
 
 class PrintImgFrame(tk.Frame):
     def __init__(self, parent, controller, gui_opt):
+        logging.debug(f"PrintImgFrame")
         self.gui_opt = gui_opt
         self.controller = controller
         # ------------------------------
@@ -100,7 +101,7 @@ class PrintImgFrame(tk.Frame):
         self.visualizer.pack(expand=True)
 
     def open_img_gui(self, img_to_display, quality, filling):
-        logging.debug(f"{img_to_display} {quality} {filling}")
+        logging.debug(f"PrintImgFrame:{img_to_display}:{quality}:{filling}")
         self.setting_filling.config(state='normal')
         self.setting_quality.config(state='normal')
         self.setting_quality.set(quality)
@@ -113,6 +114,7 @@ class PrintImgFrame(tk.Frame):
 
 class PrintImgSubWindows(tk.Toplevel):
     def __init__(self, controller, gui_opt):
+        logging.debug(f"PrintImgSubWindows")
         self.gui_opt = gui_opt
         self.controller = controller
         # ------------------------------
@@ -139,6 +141,7 @@ class PrintImgSubWindows(tk.Toplevel):
         self.protocol('WM_DELETE_WINDOW', lambda: self.controller.stop_print())
 
     def update_progress_bar(self, data):
+        logging.debug(f"PrintImgSubWindows")
         try:
             self.sub_progressbar['value'] = data['progress']
             self.sub_label['text'] = data['label']
@@ -147,19 +150,22 @@ class PrintImgSubWindows(tk.Toplevel):
             pass
 
     def destroy_windows(self):
-        self.after(2000, self.destroy())
+        logging.debug(f"PrintImgSubWindows")
+        self.after(1500, lambda: self.destroy())
 
 
 class PrintImgController:
     def __init__(self) -> None:
+        logging.debug(f"PrintImgController")
         self.user_stop = False
         pass
 
     def setup(self):
+        logging.debug(f"PrintImgController")
         pass
 
     def open_img(self):
-        logging.debug("")
+        logging.debug(f"PrintImgController")
         if self.model.open_img() is not False:
             img_to_display = self.process_img()
             self.view.open_img_gui(
@@ -169,21 +175,21 @@ class PrintImgController:
             logging.debug(f"Errore nell'apertuta dell'immagine")
 
     def change_quality(self, quality):
-        logging.debug("")
+        logging.debug(f"PrintImgController:{quality}")
         self.model.quality = quality
         img_to_display = self.process_img()
         self.view.open_img_gui(
             img_to_display, self.model.quality, self.model.filling)
 
     def change_filling(self, filling):
-        logging.debug("")
+        logging.debug(f"PrintImgController:{filling}")
         self.model.filling = filling
         img_to_display = self.process_img()
         self.view.open_img_gui(
             img_to_display, self.model.quality, self.model.filling)
 
     def process_img(self, print_go=0):
-        logging.debug("")
+        logging.debug(f"PrintImgController:{print_go}")
         img_work = self.model.img_global
         quality = self.model.quality
         filling = self.model.filling
@@ -223,9 +229,11 @@ class PrintImgController:
             )
 
     def start_thread(self):
+        logging.debug(f"PrintImgController")
         Thread(target=self.print_img()).start()
 
     def print_img(self):
+        logging.debug(f"PrintImgController")
         # ask 'process_img()' to get initial parameters
         # while all 'img_to_print' is not white, he continusly looks for next black pixel nearest from the previous one found
         # he uses slicing technique for 2D array to find black pixel position
@@ -284,18 +292,18 @@ class PrintImgController:
             pass
 
     def stop_print(self):
-        logging.debug(10*"Stop_print ")
+        logging.debug(f"PrintImgController")
         self.user_stop = True
         self.arduino_sender('U', 0, 0)
         self.view.destroy_windows()
         # self.user_stop = False
 
     def arduino_sender(self, pen, X, Y):
-        logging.debug(f"{self.user_stop}")
+        logging.debug(f"PrintImgController:{pen}:{X}:{Y}")
         return True
 
     def arduino_sender1(self, pen, X, Y):
-        logging.debug("")
+        logging.debug(f"PrintImgController:{pen}:{X}:{Y}")
         # he send data array = (pen_position, coordinate_point_X, coordinate_point_Y)
         # if pen_position is up, he wait for positive response ('A') from the board
         # if serial fails, return False
@@ -324,12 +332,13 @@ class PrintImgController:
 
 class PrintImgModel:
     def __init__(self):
+        logging.debug(f"PrintImgModel")
         self.img_global = None
         self.quality = 100
         self.filling = 0
 
     def open_img(self):
-        logging.debug("")
+        logging.debug(f"PrintImgModel")
         filepath = askopenfilename(
             title=self.locale['openImg_'],
             filetypes=[
