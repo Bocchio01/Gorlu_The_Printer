@@ -1,0 +1,78 @@
+{
+  "InfoFrame": {
+    "name": "Software created by Tommaso Bocchietti",
+    "text_1": "You will need an Arduino-controlled printer like the one in the picture",
+    "text_2": "Please note: by browsing through menus you can find useful links for the project"
+  },
+  "ConfigFrame": {
+    "text_0": "\nSet up your printer\n\n\n1. Enter the port to which the Arduino board is connected:",
+    "text_1": "2. Download the library 'AFmotor.h' (link in the menu)",
+    "text_2": "3. Upload the following code to your Arduino board",
+    "save_arduino_code": "Save the entire code"
+  },
+  "CalibrationFrame": {
+    "setting_text_0": "Calibrate the pen height (0/180)",
+    "setting_text_1": "Pen up:",
+    "setting_text_2": "Pen down:",
+    "setting_text_3": "Control the movement direction",
+    "setting_text_4": "X axis direction:",
+    "setting_text_5": "Y axis direction:",
+    "setting_text_6": "Manually bring the pen\nto the position of the red dot",
+    "setting_load": "Run a test"
+  },
+  "PrintImgFrame": {
+    "setting_text_0": "Choose the image you want to print",
+    "setting_selection": "Open file",
+    "setting_text_1": "Use the slider to adjust the approximation\nof contours in the image",
+    "setting_filling": "Filling mode",
+    "setting_go": "Print!"
+  },
+  "PrintHandFrame": {
+    "setting_text_0": "Use the board beside to draw",
+    "setting_text_1": "How to use it:",
+    "setting_text_2": "- Click and drag the cursor\n- Stay within the black border",
+    "setting_text_3": "Drawing and printing will be simultaneous",
+    "setting_button_0": "Clean up the board",
+    "setting_button_1": "Save the board (*.png)"
+  },
+  "PrintTextFrame": {
+    "setting_text_0": "Write the text and set the parameters ",
+    "setting_text_1": "Font menu",
+    "setting_text_2": "Dimension:",
+    "setting_text_3": "Font:",
+    "setting_text_4": "Paragraph:",
+    "setting_text_5": "Page rotation:",
+    "setting_button": "Go to print!"
+  },
+  "align_o": ["Left", "Centred", "Right"],
+  "direction_": ["Positive", "Negative"],
+  "set_COM_port": [
+    "Arduino configuration..",
+    "Arduino configured correctly",
+    "Arduino not found"
+  ],
+  "save_arduino_code": ["Save the code", "Arduino printer code"],
+  "set_calibration_params_": [
+    "Initial parameters for the Arduino printer. Do not modify the file.",
+    "The parameters for the pen must be between 0 and 180"
+  ],
+  "openImg_": "Open an image",
+  "saveCanvas_": ["Save your board", "Arduino board"],
+  "menu_": [
+    ["Information", "Info", "App source code", "Printer project"],
+    ["Configure", "Initial setup", "Arduino library"],
+    "Calibrate",
+    "Print image",
+    "Draw and print",
+    "Write and print",
+    ["Help", "IT", "EN", "FR"]
+  ],
+  "windows_": "GORLU the printer!",
+  "loading_": "Loading...",
+  "error_msg": [
+    "Error..",
+    "Switch to 'Configure' to reconnect the Arduino",
+    "Switch to 'Calibrate' to test the initial setting"
+  ],
+  "sub_windows_": ["Interrupt", "Printed %d out of %d total pixels\n%s"]
+}
