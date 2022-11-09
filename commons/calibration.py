@@ -133,13 +133,13 @@ class CalibrationFrame(tk.Frame):
 
 
 class CalibrationController():
-    def __init__(self) -> None:
+    def __init__(self):
         logging.debug(f"CalibrationController")
-        pass
+        calibration_params = self.model.get_calibration_params()
+        self.set_calibration_params_gui(calibration_params)
 
     def setup(self):
         logging.debug(f"CalibrationController")
-        self.set_calibration_params_gui(self.get_calibration_params())
 
     def get_calibration_params(self):
         logging.debug(f"CalibrationController")
@@ -148,19 +148,27 @@ class CalibrationController():
     def set_calibration_params_gui(self, params):
         logging.debug(f"CalibrationController")
         locale = self.model.get_locale()
-        params = {**params}
-        params['X'] = (locale['direction_'][0] if params['X']
-                       == 1 else locale['direction_'][1])
-        params['Y'] = (locale['direction_'][0] if params['Y']
-                       == 1 else locale['direction_'][1])
-        self.view.set_calibration_params_gui(params)
+        if locale:
+            params = {**params}
+            params['X'] = (
+                locale['direction_'][0]
+                if params['X'] == 1 else
+                locale['direction_'][1]
+            )
+            params['Y'] = (
+                locale['direction_'][0]
+                if params['Y'] == 1 else
+                locale['direction_'][1]
+            )
+            self.view.frames[CalibrationFrame].set_calibration_params_gui(
+                params)
 
     def set_calibration_params(self, data: dict):
         logging.debug(f"CalibrationController")
         try:
             params = self.model.set_calibration_params(data)
             self.set_calibration_params_gui(params)
-            # self.test_plotter()
+            self.test_plotter()
         except:
             showinfo(
                 title=self.model.locale['error_msg'][0],
@@ -195,28 +203,20 @@ class CalibrationController():
 
 
 class CalibrationModel:
-    def __init__(self) -> None:
+    def __init__(self):
         logging.debug(f"CalibrationModel")
-        self.calibration_params = {}
-
-        self.DEFAULT_CALIBRATION_PARAMS = {
-            'UP': 155,
-            'DOWN': 129,
-            'X': 1,
-            'Y': 1
-        }
 
     def get_calibration_params(self):
         logging.debug(f"CalibrationModel")
-        if not self.calibration_params:
-            try:
-                self.calibration_params = self.read_json(
-                    r'assets/config/plotter.json'
-                )
-            except:
-                self.calibration_params = self.DEFAULT_CALIBRATION_PARAMS
-
-        return self.calibration_params
+        if self.settings['calibration']:
+            return self.settings['calibration']
+        else:
+            return {
+                'UP': 155,
+                'DOWN': 129,
+                'X': 1,
+                'Y': 1
+            }
 
     def set_calibration_params(self, data):
         logging.debug(f"CalibrationModel:{data}")
@@ -224,15 +224,21 @@ class CalibrationModel:
             (data['UP'] < 180) and (data['DOWN'] < 180) and
             (data['UP'] > 0) and (data['DOWN'] > 0)
         ):
-            data['X'] = (1 if data['X'] ==
-                         self.locale['direction_'][0] else -1)
-            data['Y'] = (1 if data['Y'] ==
-                         self.locale['direction_'][0] else -1)
-            self.calibration_params = data
+            data['X'] = (
+                1
+                if data['X'] == self.locale['direction_'][0] else
+                -1
+            )
+            data['Y'] = (
+                1
+                if data['Y'] == self.locale['direction_'][0] else
+                -1
+            )
+            self.settings['calibration'] = data
             self.save_json(
-                r'assets/config/plotter.json',
-                self.calibration_params
+                r'assets/settings.json',
+                self.settings
             )
         else:
             raise ValueError("Errore nei dati inseriti")
-        return self.calibration_params
+        return self.settings['calibration']

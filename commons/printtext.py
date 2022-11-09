@@ -5,6 +5,8 @@ import numpy as np
 from tkinter import font
 from PIL import Image, ImageTk, ImageFont, ImageDraw
 
+from commons.printimg import PrintImgFrame
+
 
 class PrintTextFrame(tk.Frame):
     def __init__(self, parent, controller, gui_opt):
@@ -189,17 +191,8 @@ class PrintTextFrame(tk.Frame):
 class PrintTextController:
     def __init__(self) -> None:
         logging.debug(f"PrintTextController")
-        pass
-
-    def setup(self):
-        logging.debug(f"PrintTextController")
-        self.view.set_fonts_gui(self.get_fonts())
-
-        pass
-
-    def get_fonts(self):
-        logging.debug(f"PrintTextController")
-        return self.model.get_fonts()
+        fonts = self.model.load_fonts()
+        self.view.frames[PrintTextFrame].set_fonts_gui(fonts)
 
     def font_changed(self, data):
         logging.debug(f"PrintTextController")
@@ -237,12 +230,12 @@ class PrintTextController:
         img_to_show = ImageTk.PhotoImage(text_image)
 
         self.model.text_image = text_image
-        self.view.update_text(img_to_show)
+        self.view.frames[PrintTextFrame].update_text(img_to_show)
 
     def print_text(self):
         self.model.img_global = np.array(self.model.text_image)
         img_to_display = self.process_img()
-        self.view.open_img_gui(
+        self.view.frames[PrintImgFrame].open_img_gui(
             img_to_display,
             self.model.quality,
             self.model.filling
@@ -259,13 +252,17 @@ class PrintTextModel:
         pass
 
     def get_fonts(self):
+        return self.settings['fonts']
+
+    def load_fonts(self):
         logging.debug(f"Model")
-        if not self.fonts:
+        if len(self.settings['fonts']) == 0:
             for i in font.families():
                 try:
                     ImageFont.truetype(i, size=12)
-                    self.fonts.append(i)
+                    self.settings['fonts'].append(i)
                 except:
                     pass
+            self.save_json(r"assets/settings.json", self.settings)
 
-        return self.fonts
+        return self.settings['fonts']

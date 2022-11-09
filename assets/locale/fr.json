@@ -62,17 +62,18 @@
 	"saveCanvas_": ["Sauvez votre tableau", "Tableau Arduino"],
 	"menu_": [
 		[
-			"Informations",
+			"Commencer",
 			"Info",
+			"Langue",
 			"Code source de l'application",
-			"Projet d'imprimante"
+			"Projet d'imprimante",
+			"Librairie Arduino"
 		],
-		["Configurez", "R\u00e9glage initial", "Librairie Arduino"],
+		"Configurez",
 		"Calibrez",
 		"Imprimez l'image",
 		"Dessinez et imprimez",
-		"\u00c9crivez et imprimez",
-		"Lingua"
+		"\u00c9crivez et imprimez"
 	],
 	"windows_": "GORLU l'imprimante",
 	"loading_": "Loading...",

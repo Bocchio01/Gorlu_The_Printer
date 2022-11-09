@@ -60,13 +60,19 @@
 	"openImg_": "Apri un immagine",
 	"saveCanvas_": ["Salva la tua lavagna", "Lavagna Arduino"],
 	"menu_": [
-		["Informazioni", "Info", "Codice sorgente app", "Progetto stampante"],
-		["Configura", "Settaggio iniziale", "Libreria Arduino"],
+		[
+			"Incomincia",
+			"Info",
+			"Lingua",
+			"Codice sorgente app",
+			"Progetto stampante",
+			"Libreria Arduino"
+		],
+		"Configura",
 		"Calibra",
 		"Stampa immagine",
 		"Disegna e stampa",
-		"Scrivi e stampa",
-		"Lingua"
+		"Scrivi e stampa"
 	],
 	"windows_": "GORLU la stampante!",
 	"loading_": "Caricamento...",

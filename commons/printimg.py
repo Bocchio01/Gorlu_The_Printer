@@ -160,16 +160,10 @@ class PrintImgController:
         self.user_stop = False
         pass
 
-    def setup(self):
-        logging.debug(f"PrintImgController")
-        pass
-
     def open_img(self):
         logging.debug(f"PrintImgController")
-        if self.model.open_img() is not False:
-            img_to_display = self.process_img()
-            self.view.open_img_gui(
-                img_to_display, self.model.quality, self.model.filling)
+        if self.model.open_img() is not None:
+            self.update_img()
 
         else:
             logging.debug(f"Errore nell'apertuta dell'immagine")
@@ -177,16 +171,20 @@ class PrintImgController:
     def change_quality(self, quality):
         logging.debug(f"PrintImgController:{quality}")
         self.model.quality = quality
-        img_to_display = self.process_img()
-        self.view.open_img_gui(
-            img_to_display, self.model.quality, self.model.filling)
+        self.update_img()
 
     def change_filling(self, filling):
         logging.debug(f"PrintImgController:{filling}")
         self.model.filling = filling
+        self.update_img()
+
+    def update_img(self):
         img_to_display = self.process_img()
-        self.view.open_img_gui(
-            img_to_display, self.model.quality, self.model.filling)
+        self.view.frames[PrintImgFrame].open_img_gui(
+            img_to_display,
+            self.model.quality,
+            self.model.filling
+        )
 
     def process_img(self, print_go=0):
         logging.debug(f"PrintImgController:{print_go}")
@@ -243,7 +241,6 @@ class PrintImgController:
 
         img_to_print, delta_X, delta_Y = self.process_img(1)
         calibration_params = self.model.get_calibration_params()
-        logging.debug(self.model.calibration_params)
         dim_visualizer = self.model.get_gui_opt()['dim_visualizer']
 
         black_pixel = np.sum(img_to_print == 0)
@@ -310,19 +307,19 @@ class PrintImgController:
         calib_check = self.model.get_calibration_params()
         line = (f"{pen} {X} {Y}\n")
         if not calib_check:
-            self.view.prompt_message(
-                title=self.model.locale['error_msg'][0],
-                message=self.model.locale['error_msg'][2]
-            )
+            self.view.prompt_message({
+                'title': self.model.locale['error_msg'][0],
+                'message': self.model.locale['error_msg'][2]
+            })
 
             return False
         try:
             self.serial_port.write(line.encode('utf-8'))
         except:
-            self.view.prompt_message(
-                title=self.model.locale['error_msg'][0],
-                message=self.model.locale['error_msg'][1]
-            )
+            self.view.prompt_message({
+                'title': self.model.locale['error_msg'][0],
+                'message': self.model.locale['error_msg'][1]
+            })
 
             return False
         if (line[0] == 'U'):

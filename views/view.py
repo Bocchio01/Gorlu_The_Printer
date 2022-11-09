@@ -90,25 +90,8 @@ class View:
 
         self.frames[PrintTextFrame].setting_align_o.set(locale['align_o'][1])
         self.frames[PrintTextFrame].setting_align_v.set(locale['align_v'][1])
-        # self.frames[CalibrationFrame].set_calibration_to_gui(calibdata)
+
         self.root.config(menu=self.menu)
-
-    def set_calibration_params_gui(self, params):
-        logging.debug(f"View")
-        self.frames[CalibrationFrame].set_calibration_params_gui(params)
-
-    def set_COM_ports_gui(self, ports):
-        logging.debug(f"View")
-        self.frames[ConfigFrame].set_COM_ports_gui(ports)
-
-    def set_arduino_code_gui(self, arduino_code):
-        logging.debug(f"View")
-        self.frames[ConfigFrame].set_arduino_code_gui(arduino_code)
-
-    def open_img_gui(self, img_to_display, quality, filling):
-        logging.debug(f"View")
-        self.frames[PrintImgFrame].open_img_gui(
-            img_to_display, quality, filling)
 
     def create_windows(self):
         logging.debug(f"View")
@@ -121,18 +104,6 @@ class View:
     def destroy_windows(self):
         logging.debug(f"View")
         self.subwindows.destroy_windows()
-
-    def create_line(self, lastx, lasty, x, y):
-        logging.debug(f"View")
-        self.frames[PrintHandFrame].create_line(lastx, lasty, x, y)
-
-    def update_text(self, img):
-        logging.debug(f"View")
-        self.frames[PrintTextFrame].update_text(img)
-
-    def set_fonts_gui(self, ports):
-        logging.debug(f"View")
-        self.frames[PrintTextFrame].set_fonts_gui(ports)
 
     def prompt_message(self, data: dict):
         logging.debug(f"View")

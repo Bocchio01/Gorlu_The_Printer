@@ -60,13 +60,19 @@
 	"openImg_": "Open an image",
 	"saveCanvas_": ["Save your board", "Arduino board"],
 	"menu_": [
-		["Information", "Info", "App source code", "Printer project"],
-		["Configure", "Initial setup", "Arduino library"],
+		[
+			"Start",
+			"Info",
+			"Lang",
+			"App source code",
+			"Printer project",
+			"Arduino library"
+		],
+		"Configure",
 		"Calibrate",
 		"Print image",
 		"Draw and print",
-		"Write and print",
-		"Lang"
+		"Write and print"
 	],
 	"windows_": "GORLU the printer!",
 	"loading_": "Loading...",

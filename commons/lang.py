@@ -2,6 +2,8 @@ import logging
 import tkinter as tk
 from PIL import ImageTk, Image
 
+from commons.info import InfoFrame
+
 
 class LangView(tk.Frame):
     def __init__(self, parent, controller, gui_opt):
@@ -43,7 +45,10 @@ class LangView(tk.Frame):
         )
 
         frame = tk.Frame(
-            self, bg=self.gui_opt['bg_general'], **self.gui_opt['border'])
+            self,
+            bg=self.gui_opt['bg_general'],
+            **self.gui_opt['border']
+        )
 
         label = tk.Label(
             frame,
@@ -62,3 +67,52 @@ class LangView(tk.Frame):
         label.pack()
         button.pack(fill=tk.X, pady=(30, 0))
         return frame
+
+
+class LangController:
+    def __init__(self):
+        logging.debug(f"LangController")
+        chosen_lang = self.model.get_settings()['locale']
+        if chosen_lang in ['it', 'en', 'fr']:
+            locale = self.model.load_locale(target=chosen_lang)
+            self.view.set_locale(locale)
+            self.view.show_frame(InfoFrame)
+        else:
+            self.view.show_frame(LangView)
+
+    def get_locale(self):
+        logging.debug(f"LangController")
+        return self.model.get_locale()
+
+    def change_locale(self, lang):
+        logging.debug(f"LangController:{lang}")
+        locale = self.model.load_locale(target=lang)
+        self.set_calibration_params_gui(self.get_calibration_params())
+        self.view.set_locale(locale)
+        self.view.show_frame(InfoFrame)
+
+
+class LangModel:
+    def __init__(self):
+        logging.debug(f"LangModel")
+        self.locale = {}
+
+    def get_locale(self):
+        logging.debug(f"LangModel")
+        return self.locale
+
+    def load_locale(self, target: str):
+        logging.debug(f"LangModel:target:{target}")
+
+        self.locale = self.read_json(fr'assets/locale/{target}.json')
+
+        self.settings['locale'] = target
+        self.save_json(r"assets/settings.json", self.settings)
+
+        return self.locale
+
+
+# if __name__ == "__main__":
+#     from tests.test import Test
+#     c = Test(LangModel(), LangView(), LangController())
+#     c.start()

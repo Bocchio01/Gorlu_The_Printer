@@ -139,7 +139,8 @@ class PrintHandController:
     def add_line(self, event):
         logging.debug(f"PrintHandController")
         # draw a line on the whiteboard and call 'save_position()' to get next mouse position
-        self.view.create_line(self.last['x'], self.last['y'], event.x, event.y)
+        self.view.frames[PrintHandFrame].create_line(
+            self.last['x'], self.last['y'], event.x, event.y)
         self.save_position(event)
 
     def save_canvas(self, board):

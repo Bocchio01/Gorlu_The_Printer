@@ -59,7 +59,7 @@ class ConfigFrame(tk.Frame):
 
         self.COM.bind(
             '<<ComboboxSelected>>',
-            lambda e: self.controller.set_COM_port(self.COM.get())
+            lambda e: self.controller.check_COM_port(self.COM.get())
         )
 
     def set_COM_ports_gui(self, ports):
@@ -70,48 +70,34 @@ class ConfigFrame(tk.Frame):
 
 
 class ConfigController:
-    def __init__(self) -> None:
+    def __init__(self):
         logging.debug(f"ConfigController")
-        pass
+        COM_ports = self.model.get_COM_ports()
+        self.set_COM_ports_gui(COM_ports)
 
-    # def __main__(self, model, view):
-    #     print("__main__")
-    #     self.model = model
-    #     self.view = view
-
-    def setup(self):
-        logging.debug(f"ConfigController")
-        self.set_COM_ports_gui(self.get_COM_ports())
-        self.set_arduino_code_gui(self.get_arduino_code())
-
-    def get_COM_ports(self):
-        logging.debug(f"ConfigController")
-        return self.model.get_COM_ports()
+        arduino_code = self.model.load_arduino_code()
+        self.set_arduino_code_gui(arduino_code)
 
     def set_COM_ports_gui(self, ports):
         logging.debug(f"ConfigController")
-        self.view.set_COM_ports_gui(ports)
+        self.view.frames[ConfigFrame].set_COM_ports_gui(ports)
 
     def set_arduino_code_gui(self, arduino_code):
         logging.debug(f"ConfigController")
-        self.view.set_arduino_code_gui(arduino_code)
+        self.view.frames[ConfigFrame].set_arduino_code_gui(arduino_code)
 
     def save_arduino_code(self):
         logging.debug(f"ConfigController")
         self.model.save_arduino_code()
 
-    def get_arduino_code(self):
-        logging.debug(f"ConfigController")
-        return self.model.get_arduino_code()
-
-    def set_COM_port(self, port):
+    def check_COM_port(self, port):
         logging.debug(f"ConfigController")
         try:
-            self.serial_port.close()
+            self.model.serial_port.close()
         except:
             pass
         try:
-            self.serial_port = serial.Serial(port, 9600, timeout=1)
+            self.model.serial_port = serial.Serial(port, 9600, timeout=1)
             self.view.prompt_message({
                 'title': self.model.locale['set_COM_port'][0],
                 'message': self.model.locale['set_COM_port'][1]
@@ -128,25 +114,27 @@ class ConfigModel:
         logging.debug(f"ConfigModel")
         self.COM_ports = []
         self.arduino_code = ''
+        self.serial_port = None
 
     def get_COM_ports(self):
         logging.debug(f"ConfigModel")
-        if not self.COM_ports:
-            for port in list(serial.tools.list_ports.comports()):
-                self.COM_ports.append(port.device)
+        for port in list(serial.tools.list_ports.comports()):
+            self.COM_ports.append(port.device)
 
-            if len(self.COM_ports) == 0:
-                for i in range(1, 11):
-                    self.COM_ports.append(f'COM{i}')
+        if len(self.COM_ports) is 0:
+            self.COM_ports = [f"COM{i}" for i in range(1, 11)]
 
         return self.COM_ports
 
     def get_arduino_code(self):
         logging.debug(f"ConfigModel")
-        if not self.arduino_code:
-            file = open(r'Arduino_code/Arduino_code.ino', 'r')
-            self.arduino_code = file.read()
-            file.close()
+        return self.arduino_code
+
+    def load_arduino_code(self):
+        logging.debug(f"ConfigModel")
+        file = open(r'Arduino_code/Arduino_code.ino', 'r')
+        self.arduino_code = file.read()
+        file.close()
 
         return self.arduino_code
 
