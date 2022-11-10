@@ -107,7 +107,7 @@ class LangModel:
         self.locale = self.read_json(fr'assets/locale/{target}.json')
 
         self.settings['locale'] = target
-        self.save_json(r"assets/settings.json", self.settings)
+        self.save_json(self.settings, r"assets/settings.json")
 
         return self.locale
 

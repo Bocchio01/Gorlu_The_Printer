@@ -1,76 +1,113 @@
 import json
 import logging
 from tkinter import font
-from commons.lang import LangModel
-from commons.config import ConfigModel
-from commons.calibration import CalibrationModel
-from commons.printimg import PrintImgModel
-from commons.printhand import PrintHandModel
-from commons.printtext import PrintTextModel
 
 
-class Model(
-    LangModel,
-    ConfigModel,
-    CalibrationModel,
-    PrintImgModel,
-    PrintHandModel,
-    PrintTextModel
-):
+from .sub.config import ConfigModel
+from .sub.calibration import CalibrationModel
+
+from .observable import Observable
+from .abstraction import ModelABC
+
+
+class Model(ModelABC):
 
     def __init__(self):
         logging.debug(f"Model")
-        self.settings = {}
-        self.gui_opt = {}
+        self.settings = Observable({})
+        self.settings.addCallback(self.save_json)
 
-        self.load_settings()
-        self.load_gui_opt()
+        self.gui_opt = Observable({})
+        self.locale = Observable({})
 
-        for model in (LangModel, ConfigModel, CalibrationModel, PrintImgModel, PrintHandModel, PrintTextModel):
-            model.__init__(self)
+        # self.get_settings()
+        # self.load_gui_opt()
 
-    def setup(self, controller):
+        # Adding as instances all models for the app
+        # for cl in submodel:
+        #     logging.debug(f"Registering submodel: {cl.__name__}")
+        #     self.__dict__[cl.__name__] = cl(self)
+        self.ConfigModel = ConfigModel(self)
+        self.CalibrationModel = CalibrationModel(self)
+
+    def get_settings(self) -> dict:
+        """
+        Get the overall app settings from external file or from the Observer if already loaded.
+        The external file is a json containing:
+            - calibration
+            - locale
+            - GUI
+            - fonts
+        """
         logging.debug(f"Model")
-        self.controller = controller
+        if not self.settings.get():
+            file = self.read_json(r"assets/settings.json")
+            self.settings.set(file)
 
-    def get_settings(self):
-        return self.settings
+        return self.settings.get()
 
-    def load_settings(self):
-        self.settings = self.read_json(r"assets/settings.json")
-        return self.settings
+    def get_locale(self) -> dict:
+        """
+        Read from settings the value for the locale and set te variable reading from the correct json locale file.
 
-    def get_gui_opt(self):
-        return self.gui_opt
-
-    def load_gui_opt(self):
+        If the 'locale' isn't set yet, open by default the 'en-locale'
+        """
         logging.debug(f"Model")
-        self.gui_opt = {**self.settings['GUI']}
-        self.gui_opt['text_font'] = font.Font(**self.gui_opt['font'])
-        self.gui_opt['text_config'] = {
-            'bg': self.gui_opt['bg_general'],
-            'font': self.gui_opt['text_font']
+        settings = self.get_settings()
+        target = (
+            settings['locale']
+            if settings['locale'] in ['it', 'en', 'fr'] else
+            'en'
+        )
+
+        locale = self.read_json(fr'assets/locale/{target}.json')
+        self.locale.set(locale)
+
+        settings['locale'] = target
+        self.settings.set(settings)
+
+        return self.locale.get()
+
+    def get_gui_opt(self) -> dict:
+        """
+        Compute the options necessary for the GUI, retriving necessary infos from the settings variable.
+        """
+        logging.debug(f"Model")
+        opt = {**self.get_settings()['GUI']}
+        opt['text_font'] = font.Font(**opt['font'])
+        opt['text_config'] = {
+            'bg': opt['bg_general'],
+            'font': opt['text_font']
         }
-        self.gui_opt['button_config'] = {
-            'bg': self.gui_opt['bg_button'],
-            'font': self.gui_opt['text_font']
+        opt['button_config'] = {
+            'bg': opt['bg_button'],
+            'font': opt['text_font']
         }
-        self.gui_opt['combobox_config'] = {
+        opt['combobox_config'] = {
             'state': 'readonly',
-            'font': self.gui_opt['text_font']
+            'font': opt['text_font']
         }
-        self.gui_opt['visualizer_config'] = {
-            'bg': self.gui_opt['bg_visualizer'],
+        opt['visualizer_config'] = {
+            'bg': opt['bg_visualizer'],
             'bd': 1,
             'relief': 'solid',
-            'height': self.gui_opt['dim_visualizer'],
-            'width': self.gui_opt['dim_visualizer']
+            'height': opt['dim_visualizer'],
+            'width': opt['dim_visualizer']
         }
 
-        return self.gui_opt
+        self.gui_opt.set(opt)
+
+        return self.gui_opt.get()
 
     @staticmethod
-    def save_json(path: str, data: dict | list, mode='w'):
+    def save_json(data: dict | list, path: str = r"assets/settings.json", mode='w'):
+        """
+        Save the input data into a json format file.
+
+        :param data: The dictionary to be saved into the file
+        :param path: String containing filepath
+        :param mode: possible value 'w' | 'a'
+        """
         logging.debug(f"Model:path:{path}")
         with open(path, mode) as outfile:
             json.dump(
@@ -81,7 +118,12 @@ class Model(
             )
 
     @staticmethod
-    def read_json(path):
+    def read_json(path: str = r"assets/settings.json"):
+        """
+        Read the content from a json format file.
+
+        :param path: String containing filepath
+        """
         logging.debug(f"Model:path:{path}")
         file = open(path)
         content = json.load(file)

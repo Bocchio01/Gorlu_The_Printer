@@ -3,19 +3,14 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
-from tkinter.messagebox import showinfo
-import time
-
 
 class CalibrationFrame(tk.Frame):
-    def __init__(self, parent, controller, gui_opt):
-        self.gui_opt = gui_opt
-        self.controller = controller
-        # -------------------------------
-        # calibration_frame
+    def __init__(self, master: tk.Tk, gui_opt: dict) -> None:
+
+        tk.Frame.__init__(self, master, bg=gui_opt['bg_general'])
+
         self.servo_max = tk.IntVar()
         self.servo_min = tk.IntVar()
-        tk.Frame.__init__(self, parent, bg=gui_opt['bg_general'])
 
         self.setting_frame = tk.Frame(self, bg=gui_opt['bg_general'])
         self.setting_text_0 = tk.Label(
@@ -80,12 +75,6 @@ class CalibrationFrame(tk.Frame):
         )
         self.setting_load = tk.Button(
             self.setting_frame,
-            command=lambda: self.controller.set_calibration_params({
-                'UP': self.servo_max.get(),
-                'DOWN': self.servo_min.get(),
-                'X': self.setting_direction_X.get(),
-                'Y': self.setting_direction_Y.get()
-            }),
             **gui_opt['button_config']
         )
 
@@ -124,7 +113,7 @@ class CalibrationFrame(tk.Frame):
         self.visualizer_frame.pack(fill=tk.BOTH, expand=True)
         self.visualizer.pack(expand=True)
 
-    def set_calibration_params_gui(self, params):
+    def set_calibration_params(self, params):
         logging.debug(f"CalibrationView:{params}")
         self.servo_max.set(params['UP'])
         self.servo_min.set(params['DOWN'])

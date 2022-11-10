@@ -1,38 +1,31 @@
 import logging
-from commons.menu import MenuController
 
-from commons.lang import LangController
-from commons.config import ConfigController
-from commons.calibration import CalibrationController
-from commons.printimg import PrintImgController
-from commons.printhand import PrintHandController
-from commons.printtext import PrintTextController
+from views.abstraction import ViewABC
+from models.abstraction import ModelABC
+
+from controllers.abstraction import ControllerABC
+
+from controllers.sub.config import ConfigController
+from controllers.sub.calibration import CalibrationController
 
 
-class Controller(
-    MenuController,
-    LangController,
-    CalibrationController,
-    ConfigController,
-    PrintImgController,
-    PrintHandController,
-    PrintTextController
-):
+class Controller(ControllerABC):
 
-    def __init__(self, view, model):
+    def __init__(self, root: ViewABC, model: ModelABC):
         logging.debug(f"Controller")
-        self.view = view
+        self.root = root
         self.model = model
 
-        self.model.setup(self)
-        self.view.setup(self)
+        # self.model.setup(self)
+        # self.root.setup(self)
 
-        for controller in (MenuController, LangController, CalibrationController, ConfigController, PrintImgController, PrintHandController, PrintTextController):
-            controller.__init__(self)
+        self.Config: ConfigController = ConfigController(self)
+        self.Calibration: CalibrationController = CalibrationController(self)
 
     def start(self):
         logging.debug(f"Controller")
-        self.view.start_main_loop()
+        self.Calibration.view.pack()
+        self.root.start_main_loop()
 
     def get_gui_opt(self):
         logging.debug(f"Controller")
