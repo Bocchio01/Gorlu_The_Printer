@@ -1,51 +1,51 @@
 {
-	"calibration": {
-		"UP": 129,
-		"DOWN": 155,
-		"X": 1,
-		"Y": 1
-	},
-	"locale": "it",
-	"GUI": {
-		"bg_general": "#E7E6E6",
-		"bg_button": "#7F7F7F",
-		"bg_visualizer": "white",
-		"dim_visualizer": 500,
-		"border": {
-			"borderwidth": 0,
-			"relief": "solid"
-		},
-		"visualizer_config": {
-			"bg": "white",
-			"bd": 1,
-			"relief": "solid",
-			"height": 500,
-			"width": 500
-		},
-		"font": {
-			"family": "calibri",
-			"size": 14,
-			"weight": "bold"
-		}
-	},
-	"fonts": [
-		"Candara",
-		"Gabriola",
-		"SEGDT",
-		"SEMonotxt",
-		"SERomanc",
-		"SERomand",
-		"SERomans",
-		"SESimplex",
-		"SETxt",
-		"GOST Common",
-		"AcadEref",
-		"GENISO",
-		"Artifakt Element Black",
-		"Artifakt Element Book",
-		"Artifakt Element Hair",
-		"Artifakt Element Heavy",
-		"Artifakt Element Medium",
-		"Artifakt Element Thin"
-	]
+    "calibration": {
+        "UP": 129,
+        "DOWN": 155,
+        "X": 1,
+        "Y": 1
+    },
+    "locale": "it",
+    "GUI": {
+        "bg_general": "#E7E6E6",
+        "bg_button": "#7F7F7F",
+        "bg_visualizer": "white",
+        "dim_visualizer": 500,
+        "border": {
+            "borderwidth": 0,
+            "relief": "solid"
+        },
+        "visualizer_config": {
+            "bg": "white",
+            "bd": 1,
+            "relief": "solid",
+            "height": 500,
+            "width": 500
+        },
+        "font": {
+            "family": "calibri",
+            "size": 14,
+            "weight": "bold"
+        }
+    },
+    "fonts": [
+        "Candara",
+        "Gabriola",
+        "SEGDT",
+        "SEMonotxt",
+        "SERomanc",
+        "SERomand",
+        "SERomans",
+        "SESimplex",
+        "SETxt",
+        "GOST Common",
+        "AcadEref",
+        "GENISO",
+        "Artifakt Element Black",
+        "Artifakt Element Book",
+        "Artifakt Element Hair",
+        "Artifakt Element Heavy",
+        "Artifakt Element Medium",
+        "Artifakt Element Thin"
+    ]
 }

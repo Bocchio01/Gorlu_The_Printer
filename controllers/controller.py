@@ -1,12 +1,15 @@
 import logging
 
-from views.abstraction import ViewABC
-from models.abstraction import ModelABC
+from views.Vabstraction import ViewABC
+from models.Mabstraction import ModelABC
 
-from controllers.abstraction import ControllerABC
+from controllers.Cabstraction import ControllerABC
 
-from controllers.sub.config import ConfigController
-from controllers.sub.calibration import CalibrationController
+from controllers.sub.Clang import LangController
+from controllers.sub.Cinfo import InfoController
+from controllers.sub.Cconfig import ConfigController
+from controllers.sub.Ccalibration import CalibrationController
+from controllers.sub.Cprintimg import PrintImgController
 
 
 class Controller(ControllerABC):
@@ -16,17 +19,14 @@ class Controller(ControllerABC):
         self.root = root
         self.model = model
 
-        # self.model.setup(self)
-        # self.root.setup(self)
-
+        self.Lang: LangController = LangController(self)
+        self.Info: InfoController = InfoController(self)
         self.Config: ConfigController = ConfigController(self)
         self.Calibration: CalibrationController = CalibrationController(self)
+        self.PrintImg: PrintImgController = PrintImgController(self)
 
     def start(self):
         logging.debug(f"Controller")
-        self.Calibration.view.pack()
+        self.root.add_menu(self, self.model.get_locale()['menu_'])
+        self.root.show_view(self.Info.view)
         self.root.start_main_loop()
-
-    def get_gui_opt(self):
-        logging.debug(f"Controller")
-        return self.model.get_gui_opt()

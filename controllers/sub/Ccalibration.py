@@ -1,21 +1,21 @@
 import logging
-import tkinter as tk
-from tkinter import ttk
-from PIL import ImageTk, Image
 
 from tkinter.messagebox import showinfo
-import time
-from controllers.abstraction import ControllerABC
-from views.sub.calibration import CalibrationFrame
+from controllers.Cabstraction import ControllerABC, CalibrationControllerABC
+from views.sub.Vcalibration import CalibrationFrame
 
 
-class CalibrationController():
+class CalibrationController(CalibrationControllerABC):
     def __init__(self, controller: ControllerABC):
         logging.debug(f"CalibrationController")
         self.root = controller.root
         self.model = controller.model
 
-        self.view = CalibrationFrame(self.root, self.model.get_gui_opt())
+        self.view = CalibrationFrame(
+            self.root,
+            self.model.get_locale()['CalibrationFrame'],
+            self.model.get_gui_opt()
+        )
 
         self.model.CalibrationModel.calibration_params.addCallback(
             self.set_calibration_params_gui

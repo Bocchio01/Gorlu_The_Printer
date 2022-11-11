@@ -1,19 +1,28 @@
-import logging
 import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
 
-class InfoFrame(tk.Frame):
-    def __init__(self, parent, controller, gui_opt):
-        logging.debug(f"InfoFrame")
-        self.gui_opt = gui_opt
-        self.controller = controller
-        tk.Frame.__init__(self, parent, bg=gui_opt['bg_general'])
+class InfoView(tk.Frame):
+    def __init__(self, master: tk.Tk, locale: dict, gui_opt: dict) -> None:
 
-        self.name = tk.Label(self, **gui_opt['text_config'])
-        self.text_1 = tk.Label(self, **gui_opt['text_config'])
-        self.text_2 = tk.Label(self, **gui_opt['text_config'])
+        tk.Frame.__init__(self, master, **gui_opt['main_frame'])
+
+        self.name = tk.Label(
+            self,
+            text=locale['name'],
+            **gui_opt['text_config']
+        )
+        self.text_1 = tk.Label(
+            self,
+            text=locale['text_1'],
+            **gui_opt['text_config']
+        )
+        self.text_2 = tk.Label(
+            self,
+            text=locale['text_2'],
+            **gui_opt['text_config']
+        )
         self.img = tk.Label(self, bg=gui_opt['bg_general'])
         self.separator_0 = ttk.Separator(self, orient=tk.HORIZONTAL)
 

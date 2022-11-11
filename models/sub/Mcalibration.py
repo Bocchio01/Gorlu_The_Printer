@@ -1,19 +1,16 @@
 import logging
 
 from models.observable import Observable
+from models.Mabstraction import ModelABC, CalibrationModelABC
 
 
-class CalibrationModel:
-    def __init__(self, parent):
+class CalibrationModel(CalibrationModelABC):
+    def __init__(self, parent: ModelABC):
         self.parent = parent
 
         self.calibration_params = Observable({})
 
-    def get_calibration_params(self) -> dict:
-        """
-        Get calibration paramathers from the settings variable.
-        If settings are not avaiable, he set a default dict.
-        """
+    def get_calibration_params(self):
         logging.debug(f"CalibrationModel")
         if not self.calibration_params.get():
             settings = self.parent.get_settings()
@@ -32,13 +29,7 @@ class CalibrationModel:
         logging.debug(self.calibration_params.get())
         return self.calibration_params.get()
 
-    def set_calibration_params(self, data: dict) -> dict:
-        """
-        Set calibration paramethers after being modified by user from View.
-
-        Perform a data validation.
-        Raise 'ValueError' if data are out of permitted ranges.
-        """
+    def set_calibration_params(self, data):
         logging.debug(f"CalibrationModel:{data}")
         if (
             (data['UP'] < 180) and (data['DOWN'] < 180) and

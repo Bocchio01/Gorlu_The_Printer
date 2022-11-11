@@ -5,13 +5,25 @@ from tkinter import ttk
 
 
 class ConfigView(tk.Frame):
-    def __init__(self, master: tk.Tk, gui_opt: dict) -> None:
+    def __init__(self, master: tk.Tk, locale: dict, gui_opt: dict) -> None:
 
-        tk.Frame.__init__(self, master, bg=gui_opt['bg_general'])
+        tk.Frame.__init__(self, master, **gui_opt['main_frame'])
 
-        self.text_0 = tk.Label(self, **gui_opt['text_config'])
-        self.text_1 = tk.Label(self, **gui_opt['text_config'])
-        self.text_2 = tk.Label(self, **gui_opt['text_config'])
+        self.text_0 = tk.Label(
+            self,
+            text=locale['text_0'],
+            **gui_opt['text_config']
+        )
+        self.text_1 = tk.Label(
+            self,
+            text=locale['text_1'],
+            **gui_opt['text_config']
+        )
+        self.text_2 = tk.Label(
+            self,
+            text=locale['text_2'],
+            **gui_opt['text_config']
+        )
 
         self.COM = ttk.Combobox(
             self,
@@ -25,7 +37,8 @@ class ConfigView(tk.Frame):
 
         self.save_arduino_code = tk.Button(
             self,
-            **gui_opt['button_config']
+            text=locale['save_arduino_code'],
+            ** gui_opt['button_config']
         )
         self.code_frame = tk.Frame(self)
         self.arduino_code = tk.Text(

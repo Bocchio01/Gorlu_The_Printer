@@ -4,19 +4,23 @@ import serial
 
 import serial.tools.list_ports
 
-from views.sub.config import ConfigView
-from controllers.abstraction import ControllerABC
+from views.sub.Vconfig import ConfigView
+from controllers.Cabstraction import ControllerABC, ConfigControllerABC
 
 
-class ConfigController:
+class ConfigController(ConfigControllerABC):
     def __init__(self, controller: ControllerABC):
         logging.debug(f"ConfigController")
         self.root = controller.root
         self.model = controller.model
 
-        self.view = ConfigView(self.root, self.model.get_gui_opt())
+        self.view = ConfigView(
+            self.root,
+            self.model.get_locale()['ConfigFrame'],
+            self.model.get_gui_opt()
+        )
 
-        self.model.ConfigModel.COM_ports.addCallback(
+        self.model.ConfigModel.com_ports.addCallback(
             self.view.set_COM_ports
         )
         self.model.ConfigModel.arduino_code.addCallback(
@@ -35,7 +39,7 @@ class ConfigController:
         self.model.ConfigModel.get_COM_ports()
         self.model.ConfigModel.get_arduino_code()
 
-    def check_COM_port(self, port: str = None) -> None:
+    def check_COM_port(self, port):
         logging.debug(f"ConfigController")
         # try:
         #     self.model.serial_port.close()

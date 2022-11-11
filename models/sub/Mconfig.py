@@ -1,32 +1,31 @@
 import logging
 
 from models.observable import Observable
+from models.Mabstraction import ModelABC, ConfigModelABC
 import serial.tools.list_ports
 from tkinter.filedialog import asksaveasfilename
 
 
-class ConfigModel:
-    def __init__(self, parent):
+class ConfigModel(ConfigModelABC):
+    def __init__(self, parent: ModelABC):
         self.parent = parent
 
-        self.COM_ports = Observable([])
+        self.com_ports = Observable([])
         self.arduino_code = Observable('')
         self.serial_port = Observable(None)
 
-    def get_COM_ports(self) -> list:
-        """Get all avaible COM ports to connect the arduino board."""
-
-        COM_ports = []
+    def get_COM_ports(self):
+        com_ports = []
         for port in list(serial.tools.list_ports.comports()):
-            COM_ports.append(port.device)
+            com_ports.append(port.device)
 
-        if len(COM_ports) == 0:
-            COM_ports = [f"COM{i}" for i in range(1, 11)]
+        if len(com_ports) == 0:
+            com_ports = [f"COM{i}" for i in range(1, 11)]
 
-        return self.COM_ports.set(COM_ports)
+        self.com_ports.set(com_ports)
+        return self.com_ports.get()
 
-    def get_arduino_code(self) -> str:
-        """Get the arduino code from external file or from the Observer if already loaded."""
+    def get_arduino_code(self):
 
         if not self.arduino_code.get():
             file = open(r'Arduino_code/Arduino_code.ino', 'r')
@@ -35,8 +34,7 @@ class ConfigModel:
 
         return self.arduino_code.get()
 
-    def save_arduino_code(self) -> None:
-        """Save the arduino code to a file choosen via default system windows."""
+    def save_arduino_code(self):
 
         filepath = asksaveasfilename(
             title=self.parent.locale.get()['save_arduino_code'][0],
