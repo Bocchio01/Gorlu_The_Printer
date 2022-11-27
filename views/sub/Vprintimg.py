@@ -1,5 +1,3 @@
-import logging
-
 import tkinter as tk
 from tkinter import ttk, font
 from PIL import ImageTk, Image
@@ -42,6 +40,7 @@ class PrintImgView(tk.Frame):
             length=300,
             from_=1.0,
             to=500.0,
+            state=tk.DISABLED,
             **gui_opt['button_config']
         )
         self.setting_filling = tk.Checkbutton(
@@ -50,6 +49,7 @@ class PrintImgView(tk.Frame):
             variable=self.filling,
             onvalue=1,
             offvalue=0,
+            state=tk.DISABLED,
             **gui_opt['text_config']
         )
         self.setting_go = tk.Button(
@@ -88,10 +88,9 @@ class PrintImgView(tk.Frame):
         self.visualizer.pack(expand=True)
 
     def set_img(self, img_to_display):
-        logging.debug(f"PrintImgFrame:{img_to_display}")
-        self.setting_filling.config(state='normal')
-        self.setting_quality.config(state='normal')
-        self.setting_go['state'] = tk.NORMAL
+        self.setting_filling.config(state=tk.NORMAL)
+        self.setting_quality.config(state=tk.NORMAL)
+        self.setting_go.config(state=tk.NORMAL)
 
         image = ImageTk.PhotoImage(
             image=Image.fromarray(img_to_display)

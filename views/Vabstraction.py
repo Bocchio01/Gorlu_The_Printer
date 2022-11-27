@@ -13,5 +13,9 @@ class ViewABC(ABC, tk.Tk):
         pass
 
     @abstractmethod
+    def prompt_message(self, data: dict) -> None:
+        pass
+
+    @abstractmethod
     def start_main_loop(self) -> None:
         pass

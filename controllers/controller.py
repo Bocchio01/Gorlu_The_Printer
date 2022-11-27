@@ -10,6 +10,7 @@ from controllers.sub.Cinfo import InfoController
 from controllers.sub.Cconfig import ConfigController
 from controllers.sub.Ccalibration import CalibrationController
 from controllers.sub.Cprintimg import PrintImgController
+from controllers.sub.Cprinthand import PrintHandController
 
 
 class Controller(ControllerABC):
@@ -19,11 +20,12 @@ class Controller(ControllerABC):
         self.root = root
         self.model = model
 
-        self.Lang: LangController = LangController(self)
-        self.Info: InfoController = InfoController(self)
-        self.Config: ConfigController = ConfigController(self)
-        self.Calibration: CalibrationController = CalibrationController(self)
-        self.PrintImg: PrintImgController = PrintImgController(self)
+        self.Lang = LangController(self)
+        self.Info = InfoController(self)
+        self.Config = ConfigController(self)
+        self.Calibration = CalibrationController(self)
+        self.PrintImg = PrintImgController(self)
+        self.PrintHand = PrintHandController(self)
 
     def start(self):
         logging.debug(f"Controller")

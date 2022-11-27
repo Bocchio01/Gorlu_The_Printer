@@ -4,6 +4,7 @@ import webbrowser
 import tkinter as tk
 from views.Vabstraction import ViewABC
 from controllers.Cabstraction import ControllerABC
+from tkinter.messagebox import showinfo
 
 
 class View(ViewABC, tk.Tk):
@@ -31,6 +32,12 @@ class View(ViewABC, tk.Tk):
             v.pack_forget()
 
         view.pack(fill=tk.BOTH, expand=True)
+
+    def prompt_message(self, data: dict):
+        showinfo(
+            title=data['title'],
+            message=data['message']
+        )
 
     def start_main_loop(self) -> None:
         """Start the tkinter GUI app"""
@@ -96,8 +103,7 @@ class MenuView(tk.Menu):
         self.add_command(
             label=locale[4],
             command=lambda: controller.root.show_view(
-                None
-                # controller.  # .view
+                controller.PrintHand.view
             )
         )
         self.add_command(

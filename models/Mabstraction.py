@@ -6,13 +6,15 @@ class ModelABC(ABC):
 
     @abstractmethod
     def __init__(self):
-        self.settings = Observable({})
-        self.gui_opt = Observable({})
-        self.locale = Observable({})
+        self.settings: Observable
+        self.gui_opt: Observable
+        self.locale: Observable
 
         self.LangModel: LangModelABC
         self.ConfigModel: ConfigModelABC
         self.CalibrationModel: CalibrationModelABC
+        self.PrintImgModel: PrintImgModelABC
+        self.PrintHandModel: PrintHandModelABC
 
     @abstractmethod
     def get_settings(self) -> dict:
@@ -143,3 +145,38 @@ class CalibrationModelABC(ABC):
         Raise 'ValueError' if data are out of permitted ranges.
         """
         pass
+
+
+class PrintImgModelABC(ABC):
+    @abstractmethod
+    def __init__(self, parent: ModelABC):
+        self.img_global = Observable(None)
+        self.img_to_view = Observable(None)
+        self.quality = Observable(100)
+        self.filling = Observable(0)
+        pass
+
+    @abstractmethod
+    def open_img(self):
+        """
+        Open and set as a cv2.imread() the varible img_global.
+        Set to 100 the quality.
+        Set to 0 the filling.
+
+        :return np.array: data into the img_global variable
+        """
+
+
+class PrintHandModelABC(ABC):
+    @abstractmethod
+    def __init__(self, parent: ModelABC):
+        self.pen: str = 'U'
+        self.lastx = Observable(0)
+        self.lasty = Observable(0)
+        pass
+
+    @abstractmethod
+    def savePosn(self):
+        """
+        Update the last coordinates taken from the board
+        """

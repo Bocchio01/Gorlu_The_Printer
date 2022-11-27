@@ -6,6 +6,7 @@ from .sub.Mlang import LangModel
 from .sub.Mconfig import ConfigModel
 from .sub.Mcalibration import CalibrationModel
 from .sub.Mprintimg import PrintImgModel
+from .sub.Mprinthand import PrintHandModel
 
 from .observable import Observable
 from .Mabstraction import ModelABC
@@ -25,6 +26,7 @@ class Model(ModelABC):
         self.ConfigModel = ConfigModel(self)
         self.CalibrationModel = CalibrationModel(self)
         self.PrintImgModel = PrintImgModel(self)
+        self.PrintHandModel = PrintHandModel(self)
 
     def get_settings(self):
 

@@ -9,6 +9,10 @@ class Observable:
     def addCallback(self, func: Callable):
         self.callbacks[func] = 1
 
+    def addMultipleCallback(self, funcs: list[Callable]):
+        for func in funcs:
+            self.callbacks[func] = 1
+
     def delCallback(self, func: Callable):
         del self.callbacks[func]
 
