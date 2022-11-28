@@ -11,6 +11,7 @@ from controllers.sub.Cconfig import ConfigController
 from controllers.sub.Ccalibration import CalibrationController
 from controllers.sub.Cprintimg import PrintImgController
 from controllers.sub.Cprinthand import PrintHandController
+from controllers.sub.Cprinttext import PrintTextController
 
 
 class Controller(ControllerABC):
@@ -26,9 +27,11 @@ class Controller(ControllerABC):
         self.Calibration = CalibrationController(self)
         self.PrintImg = PrintImgController(self)
         self.PrintHand = PrintHandController(self)
+        self.PrintText = PrintTextController(self)
 
     def start(self):
         logging.debug(f"Controller")
         self.root.add_menu(self, self.model.get_locale()['menu_'])
         self.root.show_view(self.Info.view)
+        self.root.title(self.model.get_locale()['windows_'])
         self.root.start_main_loop()

@@ -17,6 +17,13 @@ class CalibrationController(CalibrationControllerABC):
             self.model.get_gui_opt()
         )
 
+        self.view.setting_direction_X.config(
+            value=(self.model.get_locale()['direction_'])
+        )
+        self.view.setting_direction_Y.config(
+            value=(self.model.get_locale()['direction_'])
+        )
+
         self.model.CalibrationModel.calibration_params.addCallback(
             self.set_calibration_params_gui
         )

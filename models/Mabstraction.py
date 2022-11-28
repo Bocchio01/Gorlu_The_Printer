@@ -15,6 +15,7 @@ class ModelABC(ABC):
         self.CalibrationModel: CalibrationModelABC
         self.PrintImgModel: PrintImgModelABC
         self.PrintHandModel: PrintHandModelABC
+        self.PrintTextModel: PrintTextModelABC
 
     @abstractmethod
     def get_settings(self) -> dict:
@@ -180,3 +181,20 @@ class PrintHandModelABC(ABC):
         """
         Update the last coordinates taken from the board
         """
+
+
+class PrintTextModelABC(ABC):
+    @abstractmethod
+    def __init__(self, parent: ModelABC):
+        self.parent = parent
+        self.img_text = Observable()
+        self.setting_entry = Observable("")
+        self.setting_dimension = Observable(30)
+        self.setting_character = Observable()
+        self.setting_align_o = Observable()
+        self.setting_align_v = Observable()
+        self.setting_rotation = Observable()
+
+    @abstractmethod
+    def update_img(self):
+        pass

@@ -21,11 +21,6 @@ class View(ViewABC, tk.Tk):
         webbrowser.open_new(link)
 
     def show_view(self, view: tk.Frame = None) -> None:
-        """
-        Display the selected view and unpack all the others.
-
-        :param view: View to be packed as current
-        """
         logging.debug(f"View:view:{view}")
 
         for v in self.winfo_children():
@@ -40,7 +35,6 @@ class View(ViewABC, tk.Tk):
         )
 
     def start_main_loop(self) -> None:
-        """Start the tkinter GUI app"""
         self.mainloop()
 
 
@@ -109,7 +103,6 @@ class MenuView(tk.Menu):
         self.add_command(
             label=locale[5],
             command=lambda: controller.root.show_view(
-                None
-                # controller.  # .view
+                controller.PrintText.view
             )
         )
