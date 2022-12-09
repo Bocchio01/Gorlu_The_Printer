@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from models.observable import Observable
+import serial
 
 
 class ModelABC(ABC):
@@ -94,7 +95,7 @@ class ConfigModelABC(ABC):
     def __init__(self, parent: ModelABC) -> None:
         self.com_ports = Observable([])
         self.arduino_code = Observable('')
-        self.serial_port = Observable(None)
+        self.serial_port = serial.Serial
         pass
 
     @abstractmethod

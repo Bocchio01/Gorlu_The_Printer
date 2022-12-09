@@ -9,7 +9,7 @@ class PrintTextView(tk.Frame):
 
         tk.Frame.__init__(self, master, **gui_opt['main_frame'])
 
-        self.text_dimension = tk.IntVar(value=30)
+        self.text_dimension = tk.IntVar()
 
         self.setting_frame = tk.Frame(
             self,
@@ -45,14 +45,12 @@ class PrintTextView(tk.Frame):
             length=300,
             from_=-180.0,
             to=180.0,
-            # command=fontChanged,
             **gui_opt['button_config']
         )
 
         self.setting_button = tk.Button(
             self.setting_frame,
             text=locale['setting_button'],
-            # command=lambda: printText(),
             **gui_opt['button_config']
         )
 
@@ -151,10 +149,3 @@ class PrintTextView(tk.Frame):
         self.setting_button.grid(pady=20, sticky='n')
         self.visualizer_frame.pack(fill=tk.BOTH, expand=True)
         self.visualizer.pack(expand=True)
-
-        # self.setting_entry.bind('<Key>', fontChanged)
-        # self.setting_dimension.bind('<Return>', fontChanged)
-        # self.setting_dimension.bind("<FocusOut>", fontChanged)
-        # self.setting_character.bind('<<ComboboxSelected>>', fontChanged)
-        # self.setting_align_o.bind('<<ComboboxSelected>>', fontChanged)
-        # self.setting_align_v.bind('<<ComboboxSelected>>', fontChanged)

@@ -11,8 +11,9 @@ class PrintTextModel:
         self.text_image = Observable()
         self.img_text = Observable()
         self.setting_entry = Observable("")
-        self.setting_dimension = Observable(30)
-        self.setting_character = Observable()
+        self.setting_dimension = Observable(50)
+        self.setting_character = Observable(
+            self.parent.get_settings()['fonts'][0])
         self.setting_align_o = Observable(
             self.parent.get_locale()['align_o'][1])
         self.setting_align_v = Observable(

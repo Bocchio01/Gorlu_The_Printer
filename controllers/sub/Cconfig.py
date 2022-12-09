@@ -41,19 +41,18 @@ class ConfigController(ConfigControllerABC):
 
     def check_COM_port(self, port):
         logging.debug(f"ConfigController")
-        # try:
-        #     self.model.serial_port.close()
-        # except:
-        #     pass
-        # try:
-        #     self.model.serial_port = serial.Serial(
-        #         port, 9600, timeout=1)
-        #     self.view.prompt_message({
-        #         'title': self.model.locale['set_COM_port'][0],
-        #         'message': self.model.locale['set_COM_port'][1]
-        #     })
-        # except:
-        #     self.view.prompt_message({
-        #         'title': self.model.locale['set_COM_port'][0],
-        #         'message': self.model.locale['set_COM_port'][2]
-        #     })
+        try:
+            self.model.ConfigModel.serial_port.close()
+        except:
+            pass
+        try:
+            self.model.serial_port = serial.Serial(port, 9600, timeout=1)
+            self.root.prompt_message({
+                'title': self.model.get_locale()['set_COM_port'][0],
+                'message': self.model.get_locale()['set_COM_port'][1]
+            })
+        except:
+            self.root.prompt_message({
+                'title': self.model.get_locale()['set_COM_port'][0],
+                'message': self.model.get_locale()['set_COM_port'][2]
+            })

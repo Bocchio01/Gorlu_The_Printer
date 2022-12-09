@@ -15,7 +15,7 @@ class CoreProcess:
 
         self.delta_Y: int = 0
         self.delta_X: int = 0
-        self.user_stop: bool = False
+        self.user_stop = Observable(False)
 
         self.progress = Observable(0)
         self.black_pixel = 0
@@ -64,7 +64,7 @@ class CoreProcess:
 
         self.black_pixel = np.sum(img_to_print == 0)
         X, Y, self.cont = 0, 0, 0
-        while not img_to_print.all() and not self.user_stop:
+        while not img_to_print.all() and not self.user_stop.get():
             i, self.cont = 0, self.cont + 1
             while True:
                 i += 1
@@ -91,7 +91,7 @@ class CoreProcess:
                 (X + self.delta_X/2)*250/dim_visualizer,
                 (Y + self.delta_Y/2)*250/dim_visualizer
             ) == False:
-                self.user_stop = True
+                self.user_stop.set(True)
                 break
             time.sleep(0.01)
 
@@ -101,7 +101,7 @@ class CoreProcess:
         # logging.debug(f"PrintImgController:{pen}:{X}:{Y}")
         return True
 
-    def arduino_sender_fake(self, pen: str, X: int | float, Y: int | float):
+    def arduino_sender(self, pen: str, X: int | float, Y: int | float):
         logging.debug(f"PrintImgController:{pen}:{X}:{Y}")
         calibration_params = self.model.CalibrationModel.get_calibration_params()
 
@@ -115,7 +115,7 @@ class CoreProcess:
 
             return False
         try:
-            self.serial_port.write(line.encode('utf-8'))
+            self.model.ConfigModel.serial_port.write(line.encode('utf-8'))
         except:
             self.root.prompt_message({
                 'title': self.model.get_locale()['error_msg'][0],
@@ -124,5 +124,5 @@ class CoreProcess:
 
             return False
         if (line[0] == 'U'):
-            while self.serial_port.read() != str.encode('A'):
+            while self.model.ConfigModel.serial_port.read() != str.encode('A'):
                 continue

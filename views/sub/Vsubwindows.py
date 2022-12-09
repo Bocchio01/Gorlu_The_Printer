@@ -22,7 +22,7 @@ class SubWindows(tk.Toplevel):
         self.update()
 
     def update_progress_bar(self, data: dict) -> None:
-        logging.debug(f"PrintImgSubWindows {data}")
+        # logging.debug(f"PrintImgSubWindows {data}")
         self.progressbar['value'] = data['progress']
         try:
             self.progressbar['value'] = data['progress']

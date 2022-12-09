@@ -69,7 +69,7 @@ class PrintImgController:
     def start_thread(self):
         logging.debug(f"PrintImgController")
 
-        self.CoreProcess.user_stop = False
+        self.CoreProcess.user_stop.set(False)
         self.subwindows = SubWindows({}, self.model.get_gui_opt())
 
         self.subwindows.button.config(
@@ -88,10 +88,13 @@ class PrintImgController:
             lambda e: self.stop_print() if self.CoreProcess.progress.get() == 100 else True
         )
 
+        self.CoreProcess.user_stop.addCallback(
+            lambda e: self.stop_print() if self.CoreProcess.user_stop.get() else True
+        )
+
         Thread(target=self.CoreProcess.print_img).start()
 
     def stop_print(self):
-        self.CoreProcess.user_stop = True
+        # self.CoreProcess.user_stop.set(True)
         self.CoreProcess.arduino_sender('U', 0, 0)
         self.subwindows.destroy_windows()
-        # self.user_stop = False

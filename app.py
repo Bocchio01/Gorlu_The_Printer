@@ -9,7 +9,7 @@ from PIL import EpsImagePlugin
 EpsImagePlugin.gs_windows_binary = r'C:/Program Files/gs/gs9.53.3/bin/gswin64c'
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(levelname)s:%(funcName)s():%(lineno)i: %(message)s"
 )
 
