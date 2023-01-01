@@ -43,8 +43,10 @@ class PrintHandController:
             [
                 lambda e: self.CoreProcess.arduino_sender(
                     pen=self.model.PrintHandModel.pen,
-                    X=self.model.PrintHandModel.lastx.get(),
-                    Y=self.model.PrintHandModel.lasty.get()
+                    X=self.model.PrintHandModel.lastx.get() * 250 /
+                    self.model.get_gui_opt()['dim_visualizer'],
+                    Y=self.model.PrintHandModel.lasty.get() * 250 /
+                    self.model.get_gui_opt()['dim_visualizer']
                 ),
                 lambda e: self.view.addLine(
                     [

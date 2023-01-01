@@ -46,7 +46,8 @@ class ConfigController(ConfigControllerABC):
         except:
             pass
         try:
-            self.model.serial_port = serial.Serial(port, 9600, timeout=1)
+            self.model.ConfigModel.serial_port = serial.Serial(
+                port, 9600, timeout=1)
             self.root.prompt_message({
                 'title': self.model.get_locale()['set_COM_port'][0],
                 'message': self.model.get_locale()['set_COM_port'][1]

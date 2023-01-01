@@ -97,8 +97,8 @@ class CoreProcess:
 
             self.progress.set(round(self.cont*100/self.black_pixel)),
 
-    def arduino_sender(self, pen: str, X: int | float, Y: int | float):
-        # logging.debug(f"PrintImgController:{pen}:{X}:{Y}")
+    def _arduino_sender(self, pen: str, X: int | float, Y: int | float):
+        logging.debug(f"PrintImgController:{pen}:{X}:{Y}")
         return True
 
     def arduino_sender(self, pen: str, X: int | float, Y: int | float):

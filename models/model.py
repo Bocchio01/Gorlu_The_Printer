@@ -1,6 +1,7 @@
 import json
 import logging
 from tkinter import font
+from PIL import ImageFont
 
 from .sub.Mlang import LangModel
 from .sub.Mconfig import ConfigModel
@@ -92,6 +93,21 @@ class Model(ModelABC):
             self.gui_opt.set(opt)
 
         return self.gui_opt.get()
+
+    def get_font(self):
+        logging.debug(f"Model: {self.get_settings()['fonts']}")
+
+        if self.get_settings()['fonts'] == []:
+            fonts = []
+            for i in font.families():
+                try:
+                    ImageFont.truetype(i, size=12)
+                    fonts.append(i)
+                except:
+                    pass
+            self.settings.set({**self.get_settings(), 'fonts': fonts})
+
+        return self.get_settings()['fonts']
 
     @staticmethod
     def save_json(data, path=r"assets/settings.json", mode='w'):

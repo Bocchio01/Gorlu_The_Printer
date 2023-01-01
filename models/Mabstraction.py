@@ -95,7 +95,7 @@ class ConfigModelABC(ABC):
     def __init__(self, parent: ModelABC) -> None:
         self.com_ports = Observable([])
         self.arduino_code = Observable('')
-        self.serial_port = serial.Serial
+        self.serial_port: serial.Serial
         pass
 
     @abstractmethod

@@ -26,7 +26,6 @@ class CalibrationModel(CalibrationModelABC):
                 }
             )
 
-        logging.debug(self.calibration_params.get())
         return self.calibration_params.get()
 
     def set_calibration_params(self, data):

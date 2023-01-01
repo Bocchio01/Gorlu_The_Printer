@@ -1,8 +1,9 @@
 import logging
+import time
 
-from tkinter.messagebox import showinfo
 from controllers.Cabstraction import ControllerABC, CalibrationControllerABC
 from views.sub.Vcalibration import CalibrationFrame
+from controllers.CoreProcess import CoreProcess
 
 
 class CalibrationController(CalibrationControllerABC):
@@ -10,6 +11,7 @@ class CalibrationController(CalibrationControllerABC):
         logging.debug(f"CalibrationController")
         self.root = controller.root
         self.model = controller.model
+        self.controller = controller
 
         self.view = CalibrationFrame(
             self.root,
@@ -66,33 +68,40 @@ class CalibrationController(CalibrationControllerABC):
             self.set_calibration_params_gui(params)
             self.test_plotter()
         except:
-            showinfo(
-                title=self.model.locale['error_msg'][0],
-                message=self.model.locale['set_calibration_params_'][1]
-            )
+            self.root.prompt_message({
+                'title': self.model.get_locale()['error_msg'][0],
+                'message': self.model.get_locale()['set_calibration_params_'][1]
+            })
 
     def test_plotter(self):
         logging.debug(f"CalibrationController")
-        # try:
-        #     self.serial_port.open()
-        # except:
-        #     try:
-        #         self.serial_port.close()
-        #         self.serial_port.open()
-        #     except:
-        #         self.view.prompt_message({
-        #             'title': self.model.locale['error_msg'][0],
-        #             'message': self.model.locale['set_calibration_params_'][1]
-        #         })
-        #         return False
+        try:
+            self.model.ConfigModel.serial_port.open()
+        except:
+            try:
+                self.model.ConfigModel.serial_port.close()
+                self.model.ConfigModel.serial_port.open()
+            except:
+                self.root.prompt_message({
+                    'title': self.model.get_locale()['error_msg'][0],
+                    'message': self.model.get_locale()['set_calibration_params_'][1]
+                })
+                return False
 
-        # time.sleep(2)
-        # self.serial_port.write(
-        #     f'{self.model.calibration_params["UP"]} {self.model.calibration_params["DOWN"]}'.encode('utf-8'))
+        time.sleep(2)
+        self.model.ConfigModel.serial_port.write(
+            f'{self.model.CalibrationModel.get_calibration_params()["DOWN"]} {self.model.CalibrationModel.get_calibration_params()["UP"]}'.encode('utf-8'))
 
-        # for j in range(1, 5):
-        #     for i in range(1, -1, -1):
-        #         s = ('D' if ((i+j) % 2) == 0 else 'U')
-        #         self.arduino_sender(
-        #             s, self.model.calibration_params["X"] * j * 30 * i, self.model.calibration_params["Y"] * j * 30 * i)
-        #         time.sleep(0.5)
+        coreProces = CoreProcess(self.controller)
+
+        for j in range(1, 5):
+            for i in range(1, -1, -1):
+                s = ('D' if ((i+j) % 2) == 0 else 'U')
+                coreProces.arduino_sender(
+                    s,
+                    self.model.CalibrationModel.get_calibration_params()[
+                        "X"] * j * 30 * i,
+                    self.model.CalibrationModel.get_calibration_params()[
+                        "Y"] * j * 30 * i
+                )
+                time.sleep(0.5)
