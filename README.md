@@ -1,4 +1,4 @@
-# Arduino CNC plotter
+# Gorlu_The_Printer
 
 A simple but functional all-in-one GUI app to control an Arduino CNC plotter.
 

@@ -1,0 +1,9 @@
+{
+    "calibration": {
+        "penUp": 143,
+        "penDown": 165,
+        "directionX": 1,
+        "directionY": 1
+    },
+    "fonts": []
+}
